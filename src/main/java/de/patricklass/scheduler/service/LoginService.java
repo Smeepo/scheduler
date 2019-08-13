@@ -8,23 +8,23 @@ import javax.security.auth.login.CredentialException;
 @Service
 public interface LoginService {
 
-    public User login(String username, String password) throws CredentialException;
+    User login(String username, String password) throws CredentialException;
 
     /**
      * Should return the username of the currently authenticated User
      * @return username of currently authenticated User
      */
-    public String getUserName();
+    String getUserName();
 
     /**
      * Should return the password of the currently authenticated User
      * @return password of currently authenticated User
      */
-    public String getPassword();
+    String getPassword();
 
     /**
      * Should return the currently authenticated User
      * @return currently authenticated User
      */
-    public User getAuthenticatedUser();
+    User getAuthenticatedUser();
 }

@@ -31,6 +31,17 @@ public class LoginServiceOfflineTest implements LoginService {
         hansUser.setAdmin(true);
     }
 
+    /**
+     * Returns {@link #hansUser} if the submitted username equals "hans" and the submitted password isn't null.
+     * Otherwise throws {@code CredentialException}
+     * The returned hansUser is an admin
+     *
+     * @param   username    should be hans for the function to return
+     * @param   password    should not be null for the function to return
+     * @return  hansUser, an admin
+     * @throws  CredentialException if username isnt "hans" or the password is null,
+     *                              {@code CredentialException} is thrown
+     */
     @Override
     public User login(String username, String password) throws CredentialException {
         if ("hans".equals(username) && Objects.nonNull(password)){
