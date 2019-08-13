@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data class for user
+ * @author Patrick Laß
+ */
 @Entity
 public class User {
 
