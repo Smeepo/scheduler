@@ -22,6 +22,7 @@ public class Invitation {
     public Invitation() { }
 
     public Invitation(LocalDate date, Group group){
+        this.date = date;
         statusMap = new HashMap<>();
         group.getUsers().forEach(user -> statusMap.put(user, InvitationStatus.NOT_ANSWERED));
     }
