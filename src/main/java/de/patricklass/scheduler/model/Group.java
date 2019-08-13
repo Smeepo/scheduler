@@ -16,7 +16,13 @@ public class Group {
 
     @Column
     @ManyToMany
-    private List<User> user = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+
+    private List<Invitation> invitations = new ArrayList<>();
+
+    public List<Invitation> getInvitations() {
+        return invitations;
+    }
 
     private Group() {}
 
@@ -40,8 +46,8 @@ public class Group {
         this.groupName = groupName;
     }
 
-    public List<User> getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
     @Override
@@ -53,14 +59,14 @@ public class Group {
 
         if (getId() != group.getId()) return false;
         if (!getGroupName().equals(group.getGroupName())) return false;
-        return getUser().equals(group.getUser());
+        return getUsers().equals(group.getUsers());
     }
 
     @Override
     public int hashCode() {
         int result = getId();
         result = 31 * result + getGroupName().hashCode();
-        result = 31 * result + getUser().hashCode();
+        result = 31 * result + getUsers().hashCode();
         return result;
     }
 

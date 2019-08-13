@@ -2,7 +2,6 @@ package de.patricklass.scheduler.service;
 
 import de.patricklass.scheduler.model.User;
 import org.springframework.stereotype.Component;
-
 import javax.security.auth.login.CredentialException;
 import java.util.Objects;
 
@@ -50,7 +49,7 @@ public class LoginServiceOfflineTest implements LoginService {
     public User login(String userName, String password) throws CredentialException {
         if ("hans".equals(userName) && Objects.nonNull(password)){
             this.userName = userName;
-            this.password = password;
+            this.password = "";
             this.user = hansUser;
             return hansUser;
         } else {
