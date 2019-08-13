@@ -1,0 +1,5 @@
+#loginBG{
+    -fx-background-image: url("../images/loginBG.jpg");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+}

@@ -38,6 +38,8 @@ public class SchedulerApplication extends Application {
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
         Scene scene = new Scene(rootNode, 800, 600);
+ // CSS include doesn't work...yet
+//        scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
