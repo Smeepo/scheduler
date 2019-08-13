@@ -21,7 +21,7 @@ public class SchedulerApplication extends Application {
         ConfigurableApplicationContext springContext = SpringApplication.run(SchedulerApplication.class);
 
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/fxml/adminMain.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/adminGroupOverview.fxml"));
         fxmlLoader.setControllerFactory(springContext::getBean);
 
         Parent rootNode = fxmlLoader.load();
