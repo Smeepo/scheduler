@@ -3,10 +3,7 @@ package de.patricklass.scheduler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Accordion;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
@@ -27,6 +24,16 @@ public class userViewController {
     @FXML
     private Button btnLogout;
 
+
+    //should be generated dynamically based on amount of events/dates
+    @FXML
+    private Button btnAccept;
+
+    //should be generated dynamically based on amount of events/dates
+    @FXML
+    private Button btnDecline;
+
+    //should be generated dynamically based on amount of groups
     @FXML
     private TitledPane titledPaneOne;
 
@@ -44,5 +51,12 @@ public class userViewController {
     public void logout(){
         //log out
         System.out.println("attempting to log out");
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("You just pressed the logout button");
+
+        alert.showAndWait();
     }
 }

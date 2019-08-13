@@ -28,7 +28,7 @@ public class SchedulerApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
 
-        fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/popupAdminEvent.fxml"));
         Parent rootNode = fxmlLoader.load();
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
