@@ -19,4 +19,14 @@ public class LoginController {
 
     @FXML
     private Button btnRegister;
+
+
+    public void login(){
+        //login
+        System.out.println("attempting login");
+    }
+
+    public void register(){
+        System.out.println("attempting to register");
+    }
 }

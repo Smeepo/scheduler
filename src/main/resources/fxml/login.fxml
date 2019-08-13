@@ -10,9 +10,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.patricklass.scheduler.LoginController">
    <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="438.0" prefWidth="614.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Please login">
                <VBox.margin>
@@ -29,12 +29,12 @@
                   <Insets left="100.0" right="100.0" />
                </VBox.margin>
             </PasswordField>
-            <Button fx:id="btnLogin" mnemonicParsing="false" text="Login">
+            <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#login" text="Login">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="btnRegister" mnemonicParsing="false" text="Register">
+            <Button fx:id="btnRegister" mnemonicParsing="false" onAction="#register" text="Register">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
@@ -45,17 +45,24 @@
          </padding>
       </VBox>
    </center>
-   <top>
-      <Label alignment="CENTER" contentDisplay="CENTER" text="WELCOME" textAlignment="CENTER" textFill="#ffed00" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets top="50.0" />
-         </BorderPane.margin>
-         <font>
-            <Font name="Roboto" size="49.0" />
-         </font>
-      </Label>
-   </top>
    <effect>
-      <GaussianBlur radius="0.48" />
+      <GaussianBlur radius="1.21" />
    </effect>
+   <top>
+      <VBox alignment="CENTER" prefHeight="103.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="DND SCHEDULER" textFill="#ff0053" underline="true">
+               <font>
+                  <Font name="Roboto Bold" size="49.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="150.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </VBox>
+   </top>
 </BorderPane>

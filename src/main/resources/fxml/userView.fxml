@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.patricklass.scheduler.userViewController">
+   <top>
+      <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#logout" text="Logout" BorderPane.alignment="TOP_RIGHT">
+         <BorderPane.margin>
+            <Insets right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </Button>
+   </top>
+   <right>
+      <VBox alignment="TOP_CENTER" prefHeight="355.0" prefWidth="356.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" text="Termine Granger">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <ListView fx:id="eventListView" prefHeight="255.0" prefWidth="222.0">
+               <VBox.margin>
+                  <Insets right="10.0" top="10.0" />
+               </VBox.margin>
+            </ListView>
+         </children>
+      </VBox>
+   </right>
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="355.0" prefWidth="297.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Gruppen">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
+            <Accordion fx:id="groupAccordion">
+              <panes>
+                <TitledPane fx:id="titledPaneOne" animated="false" text="untitled 1">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0" />
+                     </content>
+                  </TitledPane>
+                <TitledPane animated="false" text="untitled 2">
+                     <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0" />
+                     </content>
+                  </TitledPane>
+              </panes>
+               <VBox.margin>
+                  <Insets bottom="50.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
+            </Accordion>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>

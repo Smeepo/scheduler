@@ -11,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Starter for JavaFX using Spring
+ *
  * @author minh
  */
 @SpringBootApplication
@@ -22,7 +23,7 @@ public class SchedulerApplication extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         springContext = SpringApplication.run(SchedulerApplication.class);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
@@ -32,8 +33,8 @@ public class SchedulerApplication extends Application {
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
         Scene scene = new Scene(rootNode, 800, 600);
- // CSS include doesn't work...yet
-//        scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        // CSS include doesn't work...yet
+        scene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
