@@ -5,6 +5,10 @@ import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.CredentialException;
 
+/**
+ * Interface defines LoginServices
+ * @author Patrick Laß
+ */
 @Service
 public interface LoginService {
 

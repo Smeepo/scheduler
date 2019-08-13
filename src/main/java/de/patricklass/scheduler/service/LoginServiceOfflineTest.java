@@ -6,6 +6,10 @@ import org.springframework.stereotype.Component;
 import javax.security.auth.login.CredentialException;
 import java.util.Objects;
 
+/**
+ * Implementation of {@link LoginService} for Offline / Testing use.
+ * @author Patrick Laß
+ */
 @Component
 public class LoginServiceOfflineTest implements LoginService {
 
@@ -32,20 +36,22 @@ public class LoginServiceOfflineTest implements LoginService {
     }
 
     /**
-     * Returns {@link #hansUser} if the submitted username equals "hans" and the submitted password isn't null.
-     * Otherwise throws {@code CredentialException}
+     * Returns {@link #hansUser} if the submitted {@code userName} equals "hans"
+     * and the submitted {@code password} isn't null. Otherwise throws {@code CredentialException}
      * The returned hansUser is an admin
      *
-     * @param   username    should be hans for the function to return
+     * @param   userName    should be hans for the function to return
      * @param   password    should not be null for the function to return
      * @return  hansUser, an admin
-     * @throws  CredentialException if username isnt "hans" or the password is null,
+     * @throws  CredentialException if {@code userName} isnt "hans" or the {@code password} is null,
      *                              {@code CredentialException} is thrown
      */
     @Override
-    public User login(String username, String password) throws CredentialException {
-        if ("hans".equals(username) && Objects.nonNull(password)){
-            user = hansUser;
+    public User login(String userName, String password) throws CredentialException {
+        if ("hans".equals(userName) && Objects.nonNull(password)){
+            this.userName = userName;
+            this.password = password;
+            this.user = hansUser;
             return hansUser;
         } else {
             throw new CredentialException();
