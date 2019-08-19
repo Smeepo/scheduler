@@ -52,19 +52,19 @@ public class AdminMainController {
     @FXML
     private Button createGroupButton = new Button();
 
+    private SceneManager sceneManager;
+
+
+    public AdminMainController(SceneManager sceneManager) {
+        this.sceneManager = sceneManager;
+    }
 
     @FXML
     private void initialize() {
         createGroupButton.setOnAction((event) -> {
 
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/fxml/adminMainCreateGroupPopUp.fxml"));
-            Parent rootNode = null;
-            try {
-                rootNode = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            sceneManager.showScene("createGroup");
 //            SchedulerApplication.getPrimaryStage().setScene(new Scene(rootNode));
 //            SchedulerApplication.getPrimaryStage().show();
 
