@@ -64,14 +64,14 @@ public class AdminMainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            SchedulerApplication.getPrimaryStage().setScene(new Scene(rootNode));
-            SchedulerApplication.getPrimaryStage().show();
+//            SchedulerApplication.getPrimaryStage().setScene(new Scene(rootNode));
+//            SchedulerApplication.getPrimaryStage().show();
         });
 
         delGroupButton.setOnAction((event -> {
             final Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(SchedulerApplication.getPrimaryStage());
+            //dialog.initOwner(SchedulerApplication.getPrimaryStage());
             VBox dialogVbox = new VBox(20);
             dialogVbox.getChildren().add(new Text("Möchten Sie die Gruppe wirklich löschen?"));
             Button yesButton = new Button("Ja");
@@ -93,7 +93,7 @@ public class AdminMainController {
         delUserButton.setOnAction((event -> {
             final Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(SchedulerApplication.getPrimaryStage());
+//            dialog.initOwner(SchedulerApplication.getPrimaryStage());
             VBox dialogVbox = new VBox(20);
             dialogVbox.getChildren().add(new Text("Möchten Sie den Nutzer wirklich löschen?"));
             Button yesButton = new Button("Ja");
@@ -116,7 +116,7 @@ public class AdminMainController {
         addUserButton.setOnAction((event -> {
             final Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initOwner(SchedulerApplication.getPrimaryStage());
+            //dialog.initOwner(SchedulerApplication.getPrimaryStage());
             VBox dialogVbox = new VBox(20);
             dialogVbox.getChildren().add(new Text("Nutzer erfolgreich zu Gruppe hinzugefügt"));
             Button okButton = new Button("OK");

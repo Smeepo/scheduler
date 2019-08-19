@@ -4,19 +4,20 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Data class for user
+ * @author Patrick Laß
+ */
 @Entity
+@Table
 public class User {
 
     @Id
     @GeneratedValue
     private int id;
 
-    @Column
+    @Column(unique = true)
     private String userName;
-
-    @Column
-    @ManyToMany
-    private List<Group> groups = new ArrayList<>();
 
     @Column
     private boolean isAdmin;
@@ -43,10 +44,6 @@ public class User {
         this.userName = userName;
     }
 
-    public List<Group> getGroups() {
-        return groups;
-    }
-
     public boolean isAdmin() {
         return isAdmin;
     }
@@ -64,15 +61,13 @@ public class User {
 
         if (getId() != user.getId()) return false;
         if (isAdmin() != user.isAdmin()) return false;
-        if (!getUserName().equals(user.getUserName())) return false;
-        return getGroups().equals(user.getGroups());
+        return getUserName() != null ? getUserName().equals(user.getUserName()) : user.getUserName() == null;
     }
 
     @Override
     public int hashCode() {
         int result = getId();
-        result = 31 * result + getUserName().hashCode();
-        result = 31 * result + getGroups().hashCode();
+        result = 31 * result + (getUserName() != null ? getUserName().hashCode() : 0);
         result = 31 * result + (isAdmin() ? 1 : 0);
         return result;
     }
