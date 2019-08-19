@@ -1,6 +1,7 @@
 package de.patricklass.scheduler;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import org.springframework.stereotype.Controller;
@@ -14,4 +15,7 @@ public class AdminMainCreateGroupPopUp {
 
     @FXML
     private TextArea adminMainCreateGroupDescriptionTextfield = new TextArea();
+
+    @FXML
+    private Button adminMainCreateGroupConfirmButton = new Button();
 }
