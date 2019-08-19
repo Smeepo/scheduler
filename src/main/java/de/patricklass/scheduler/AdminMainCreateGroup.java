@@ -1,6 +1,7 @@
 package de.patricklass.scheduler;
 
 import de.patricklass.scheduler.control.SceneManager;
+import de.patricklass.scheduler.model.Group;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -43,6 +44,7 @@ public class AdminMainCreateGroup {
             okButton.setOnAction((event1 -> {
                 dialog.close();
                 sceneManager.showLastScene();
+
                 //TODO add Group to database
             }));
             dialogVbox.getChildren().add(okButton);
