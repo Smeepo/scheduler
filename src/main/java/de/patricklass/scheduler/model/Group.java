@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table
 public class Group {
 
     @Id
@@ -15,7 +16,7 @@ public class Group {
     private String groupName;
 
     @Column
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> users = new ArrayList<>();
 
     private List<Invitation> invitations = new ArrayList<>();

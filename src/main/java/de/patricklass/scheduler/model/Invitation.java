@@ -1,12 +1,12 @@
 package de.patricklass.scheduler.model;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+@Entity
+@Table
 public class Invitation {
 
     @Id

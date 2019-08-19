@@ -9,6 +9,7 @@ import java.util.List;
  * @author Patrick Laß
  */
 @Entity
+@Table
 public class User {
 
     @Id
