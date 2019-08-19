@@ -1,4 +1,4 @@
-package de.patricklass.scheduler;
+package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.service.LoginService;

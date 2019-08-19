@@ -1,4 +1,4 @@
-package de.patricklass.scheduler;
+package de.patricklass.scheduler.control;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
