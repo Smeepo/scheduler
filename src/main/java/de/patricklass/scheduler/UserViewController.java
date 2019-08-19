@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @author minh
  */
 @Controller
-public class userViewController {
+public class UserViewController {
     private ArrayList<String> stringArrayList = new ArrayList<>();
 
     @FXML

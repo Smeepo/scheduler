@@ -28,12 +28,12 @@ public class SchedulerApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
 
-        fxmlLoader.setLocation(getClass().getResource("/fxml/popupAdminEvent.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/invitationView.fxml"));
         Parent rootNode = fxmlLoader.load();
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
         Scene scene = new Scene(rootNode, 800, 600);
-        // CSS include doesn't work...yet
+        //Custom CSS is inserted here
         scene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

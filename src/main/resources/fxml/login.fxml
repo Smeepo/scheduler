@@ -51,7 +51,7 @@
    <top>
       <VBox alignment="CENTER" prefHeight="103.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="DND SCHEDULER" textFill="#ff0053" underline="true">
+            <Label alignment="CENTER" contentDisplay="CENTER" text="DND SCHEDULER" textFill="#ffed00" underline="true">
                <font>
                   <Font name="Roboto Bold" size="49.0" />
                </font>
