@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 /**
  * Starter for JavaFX using Spring
@@ -26,6 +27,7 @@ public class SchedulerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        sceneManager = new SceneManager(primaryStage);
         springContext = SpringApplication.run(SchedulerApplication.class);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
@@ -38,12 +40,12 @@ public class SchedulerApplication extends Application {
         Scene loginScene = new Scene(rootNode, 800, 600);
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
 
-        sceneManager = new SceneManager(primaryStage);
         sceneManager.addScene("login", loginScene);
         sceneManager.showScene("login");
         primaryStage.show();
     }
 
+    @Bean
     public SceneManager getSceneManager() {
         return sceneManager;
     }
