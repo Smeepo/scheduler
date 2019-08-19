@@ -38,10 +38,13 @@ public class LoginController {
     public void login(){
         try{
             loginService.login(userTextField.getText(), passwordField.getText());
+            System.out.println("YOU'RE IN");
         } catch (CredentialException e) {
             e.printStackTrace();
         }
         System.out.println("attempting login");
+
+
     }
 
     public void register(){
