@@ -1,5 +1,6 @@
 package de.patricklass.scheduler;
 
+import de.patricklass.scheduler.control.SceneManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,8 @@ public class SchedulerApplication extends Application {
         launch(args);
     }
 
+    private static SceneManager sceneManager;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         springContext = SpringApplication.run(SchedulerApplication.class);
@@ -31,9 +34,16 @@ public class SchedulerApplication extends Application {
         Parent rootNode = fxmlLoader.load();
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
-        Scene scene = new Scene(rootNode, 800, 600);
-        primaryStage.setScene(scene);
+        Scene loginScene = new Scene(rootNode, 800, 600);
+
+        sceneManager = new SceneManager(primaryStage);
+        sceneManager.addScene("login", loginScene);
+        sceneManager.showScene("login");
         primaryStage.show();
+    }
+
+    public SceneManager getSceneManager() {
+        return sceneManager;
     }
 
     @Override
