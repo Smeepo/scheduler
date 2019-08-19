@@ -2,6 +2,7 @@ package de.patricklass.scheduler.service;
 
 import de.patricklass.scheduler.model.User;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.CredentialException;
 import java.util.Objects;
@@ -10,7 +11,7 @@ import java.util.Objects;
  * Implementation of {@link LoginService} for Offline / Testing use.
  * @author Patrick Laß
  */
-@Component
+@Service("loginService-offline")
 public class LoginServiceOfflineTest implements LoginService {
 
     private User hansUser;
@@ -19,11 +20,6 @@ public class LoginServiceOfflineTest implements LoginService {
      * Username of currently authenticated User
      */
     private String userName;
-
-    /**
-     * Password of currently authenticated User
-     */
-    private String password;
 
     /**
      * Currently authenticated User
@@ -50,7 +46,6 @@ public class LoginServiceOfflineTest implements LoginService {
     public User login(String userName, String password) throws CredentialException {
         if ("hans".equals(userName) && Objects.nonNull(password)){
             this.userName = userName;
-            this.password = password;
             this.user = hansUser;
             return hansUser;
         } else {
@@ -61,11 +56,6 @@ public class LoginServiceOfflineTest implements LoginService {
     @Override
     public String getUserName() {
         return userName;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     @Override

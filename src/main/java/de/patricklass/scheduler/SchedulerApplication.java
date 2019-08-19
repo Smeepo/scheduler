@@ -1,5 +1,6 @@
 package de.patricklass.scheduler;
 
+import de.patricklass.scheduler.control.SceneManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +12,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Starter for JavaFX using Spring
- *
  * @author minh
  */
 @SpringBootApplication
@@ -22,21 +22,30 @@ public class SchedulerApplication extends Application {
         launch(args);
     }
 
+    private static SceneManager sceneManager;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         springContext = SpringApplication.run(SchedulerApplication.class);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
 
-        fxmlLoader.setLocation(getClass().getResource("/fxml/invitationView.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
         Parent rootNode = fxmlLoader.load();
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
-        Scene scene = new Scene(rootNode, 800, 600);
         //Custom CSS is inserted here
-        scene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
-        primaryStage.setScene(scene);
+        loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
+        Scene loginScene = new Scene(rootNode, 800, 600);
+
+        sceneManager = new SceneManager(primaryStage);
+        sceneManager.addScene("login", loginScene);
+        sceneManager.showScene("login");
         primaryStage.show();
+    }
+
+    public SceneManager getSceneManager() {
+        return sceneManager;
     }
 
     @Override
