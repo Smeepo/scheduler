@@ -16,7 +16,7 @@ public class Invitation {
     @Column
     private LocalDate date;
 
-    @Column
+    @ElementCollection
     private Map<User, InvitationStatus> statusMap;
 
     public Invitation() { }
