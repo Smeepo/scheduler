@@ -1,5 +1,6 @@
 package de.patricklass.scheduler;
 
+import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.service.LoginService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +18,8 @@ import javax.security.auth.login.CredentialException;
  */
 @Controller
 public class LoginController {
+
+
     @FXML
     private TextField userTextField;
 
@@ -31,18 +34,29 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    public LoginController(@Qualifier("loginService-offline") LoginService loginService) {
+    private SceneManager sceneManager;
+
+
+    public LoginController(@Qualifier("loginService-offline") LoginService loginService, SceneManager sceneManager) {
         this.loginService = loginService;
+        this.sceneManager = sceneManager;
     }
 
     public void login(){
         try{
             loginService.login(userTextField.getText(), passwordField.getText());
-            System.out.println("YOU'RE IN");
+
+           if( loginService.login(userTextField.getText(), passwordField.getText())!= null){
+               System.out.println("YOU'RE IN");
+               sceneManager.showScene("adminMain");
+           };
+
         } catch (CredentialException e) {
             e.printStackTrace();
         }
-        System.out.println("attempting login");
+
+
+
 
 
     }

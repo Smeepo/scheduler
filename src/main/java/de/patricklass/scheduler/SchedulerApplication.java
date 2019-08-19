@@ -29,9 +29,9 @@ public class SchedulerApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         sceneManager = new SceneManager(primaryStage);
         springContext = SpringApplication.run(SchedulerApplication.class);
+
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
-
         fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
         Parent rootNode = fxmlLoader.load();
 
@@ -39,6 +39,14 @@ public class SchedulerApplication extends Application {
         //Custom CSS is inserted here
         Scene loginScene = new Scene(rootNode, 800, 600);
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
+
+        //TEST
+        fxmlLoader = new FXMLLoader();
+        fxmlLoader.setControllerFactory(springContext::getBean);
+        fxmlLoader.setLocation(getClass().getResource("/fxml/adminMain.fxml"));
+        Parent adminMainNode = fxmlLoader.load();
+        Scene adminMainScene = new Scene(adminMainNode, 800, 600);
+        sceneManager.addScene("adminMain", adminMainScene);
 
         sceneManager.addScene("login", loginScene);
         sceneManager.showScene("login");

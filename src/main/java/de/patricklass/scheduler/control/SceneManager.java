@@ -14,7 +14,7 @@ public class SceneManager {
 
     private final Stage primaryStage;
 
-    private Stack<Scene> lastScenes;
+    private Stack<Scene> lastScenes = new Stack<>();
 
     private Map<String, Scene> sceneMap = new HashMap<>();
 
