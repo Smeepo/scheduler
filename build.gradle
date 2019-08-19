@@ -21,5 +21,7 @@ dependencies {
     compile("com.h2database:h2")
     compile("org.springframework:spring-web")
     compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("com.google.crypto.tink:tink:1.3.0-rc1")
+    compile("org.mindrot:jbcrypt:0.4")
     testCompile("junit:junit")
 }
