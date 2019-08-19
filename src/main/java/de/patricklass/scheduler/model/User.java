@@ -15,7 +15,7 @@ public class User {
     @GeneratedValue
     private int id;
 
-    @Column
+    @Column(unique = true)
     private String userName;
 
     @Column
