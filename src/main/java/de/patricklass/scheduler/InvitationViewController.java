@@ -7,8 +7,13 @@ import javafx.scene.control.TextField;
 import org.springframework.stereotype.Controller;
 
 
-import java.sql.SQLOutput;
-
+/**
+ * Called from AdminGroupOverview
+ * Controller for viewing events and sending out invitations for those events.
+ * GUI displays date and all users that are subscribed to that event
+ * and their invitation status(ACCEPTED,DECLINED, NOT ANSWERED)
+ * @author Minh
+ */
 @Controller
 public class InvitationViewController {
 

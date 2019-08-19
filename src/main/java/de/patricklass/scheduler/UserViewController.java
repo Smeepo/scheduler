@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 
 /**
- *
+ *  User's view after loggin in. Shows user's groups and events.
  * @author minh
  */
 @Controller

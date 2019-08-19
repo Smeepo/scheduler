@@ -9,8 +9,13 @@ import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
 
+/**
+ * Called on AdminGroupOverview
+ * Admin creates/updates events here
+ * @author Minh
+ */
 @Controller
-public class PopupAdminEventController {
+public class AdminCreateEventController {
 
 
     @FXML
@@ -34,6 +39,9 @@ public class PopupAdminEventController {
     @FXML
     private Button btnCreate;
 
+    /**
+     * groupField is populated by previous scene(AdminGroupOverView)
+     */
     @FXML
     public void initialize(){
         System.out.println("sdfdsfs");

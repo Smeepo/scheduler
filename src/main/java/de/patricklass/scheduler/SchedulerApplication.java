@@ -35,8 +35,8 @@ public class SchedulerApplication extends Application {
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
         //Custom CSS is inserted here
-        loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
         Scene loginScene = new Scene(rootNode, 800, 600);
+        loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
 
         sceneManager = new SceneManager(primaryStage);
         sceneManager.addScene("login", loginScene);

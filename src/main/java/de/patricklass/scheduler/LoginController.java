@@ -11,6 +11,10 @@ import org.springframework.stereotype.Controller;
 
 import javax.security.auth.login.CredentialException;
 
+/**
+ * Handles authentications and registrations
+ * @author Minh
+ */
 @Controller
 public class LoginController {
     @FXML
@@ -33,7 +37,7 @@ public class LoginController {
 
     public void login(){
         try{
-            loginService.login("", "");
+            loginService.login(userTextField.getText(), passwordField.getText());
         } catch (CredentialException e) {
             e.printStackTrace();
         }
