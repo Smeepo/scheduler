@@ -11,6 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Starter for JavaFX using Spring
  * @author minh
@@ -29,43 +33,29 @@ public class SchedulerApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         sceneManager = new SceneManager(primaryStage);
         springContext = SpringApplication.run(SchedulerApplication.class);
+
+        Map<String, String> fxmlMap = new HashMap<>();
+        fxmlMap.put("groupOverview", "/fxml/adminGroupOverview.fxml");
+        fxmlMap.put("createGroup", "/fxml/adminMainCreateGroup.fxml");
+        fxmlMap.put("adminMain", "/fxml/adminMain.fxml");
+        fxmlMap.put("userView", "/fxml/userView.fxml");
+        fxmlMap.put("invitationView", "/fxml/invitationView.fxml");
+        fxmlMap.put("adminCreateEvent", "/fxml/popupAdminEvent.fxml");
+
+        fxmlMap.forEach((identifier, path) -> {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setControllerFactory(springContext::getBean);
+            fxmlLoader.setLocation(getClass().getResource(path));
+            Parent adminOverviewNode = null;
+            try {
+                adminOverviewNode = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            sceneManager.addScene(identifier, new Scene(adminOverviewNode));
+        });
+
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        fxmlLoader.setLocation(getClass().getResource("/fxml/adminMainCreateGroup.fxml"));
-        Parent adminNode = fxmlLoader.load();
-        sceneManager.addScene("createGroup", new Scene(adminNode));
-
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        fxmlLoader.setLocation(getClass().getResource("/fxml/adminGroupOverview.fxml"));
-        Parent adminOverviewNode = fxmlLoader.load();
-        sceneManager.addScene("groupOverview", new Scene(adminOverviewNode));
-
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        fxmlLoader.setLocation(getClass().getResource("/fxml/adminMain.fxml"));
-        Parent adminMainNode = fxmlLoader.load();
-        sceneManager.addScene("adminMain", new Scene(adminMainNode));
-
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        fxmlLoader.setLocation(getClass().getResource("/fxml/userView.fxml"));
-        Parent userViewNode = fxmlLoader.load();
-        sceneManager.addScene("userView", new Scene(userViewNode));
-
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        fxmlLoader.setLocation(getClass().getResource("/fxml/invitationView.fxml"));
-        Parent invitationViewNode = fxmlLoader.load();
-        sceneManager.addScene("invitationView", new Scene(invitationViewNode));
-
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        fxmlLoader.setLocation(getClass().getResource("/fxml/popupAdminEvent.fxml"));
-        Parent adminCreateEventNode = fxmlLoader.load();
-        sceneManager.addScene("adminCreateEvent", new Scene(adminCreateEventNode));
-
-        fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
         fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
         Parent adminPopupNode = fxmlLoader.load();
