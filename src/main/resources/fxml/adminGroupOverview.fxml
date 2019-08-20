@@ -50,6 +50,7 @@
             <Pane prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Button fx:id="adminGroupOverviewRemoveUserButton" layoutX="14.0" layoutY="40.0" mnemonicParsing="false" text="Nutzer entfernen" />
+                  <Button fx:id="adminGroupOverviewBackButton" layoutX="162.0" layoutY="40.0" mnemonicParsing="false" text="Abbrechen" />
                </children>
             </Pane>
             <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">

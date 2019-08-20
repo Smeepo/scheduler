@@ -11,6 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Starter for JavaFX using Spring
  * @author Patrick Laß
@@ -30,23 +34,36 @@ public class SchedulerApplication extends Application {
         sceneManager = new SceneManager(primaryStage);
         springContext = SpringApplication.run(SchedulerApplication.class);
 
+        Map<String, String> fxmlMap = new HashMap<>();
+        fxmlMap.put("groupOverview", "/fxml/adminGroupOverview.fxml");
+        fxmlMap.put("createGroup", "/fxml/adminMainCreateGroup.fxml");
+        fxmlMap.put("adminMain", "/fxml/adminMain.fxml");
+        fxmlMap.put("userView", "/fxml/userView.fxml");
+        fxmlMap.put("invitationView", "/fxml/invitationView.fxml");
+        fxmlMap.put("adminCreateEvent", "/fxml/popupAdminEvent.fxml");
+
+        fxmlMap.forEach((identifier, path) -> {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setControllerFactory(springContext::getBean);
+            fxmlLoader.setLocation(getClass().getResource(path));
+            Parent adminOverviewNode = null;
+            try {
+                adminOverviewNode = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            sceneManager.addScene(identifier, new Scene(adminOverviewNode));
+        });
+
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
         fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
-        Parent rootNode = fxmlLoader.load();
+        Parent adminPopupNode = fxmlLoader.load();
 
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
         //Custom CSS is inserted here
-        Scene loginScene = new Scene(rootNode, 800, 600);
+        Scene loginScene = new Scene(adminPopupNode, 800, 600);
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
-
-        //TEST
-        fxmlLoader = new FXMLLoader();
-        fxmlLoader.setControllerFactory(springContext::getBean);
-        fxmlLoader.setLocation(getClass().getResource("/fxml/adminMain.fxml"));
-        Parent adminMainNode = fxmlLoader.load();
-        Scene adminMainScene = new Scene(adminMainNode, 800, 600);
-        sceneManager.addScene("adminMain", adminMainScene);
 
         sceneManager.addScene("login", loginScene);
         sceneManager.showScene("login");
