@@ -2,6 +2,7 @@ package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.service.LoginService;
+import de.patricklass.scheduler.service.MockDataService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -39,9 +40,10 @@ public class LoginController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager) {
+    public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, MockDataService mockDataService) {
         this.loginService = loginService;
         this.sceneManager = sceneManager;
+        mockDataService.initRepositoryData();
     }
 
     public void login(){
