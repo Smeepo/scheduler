@@ -1,4 +1,4 @@
-package de.patricklass.scheduler;
+package de.patricklass.scheduler.control;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

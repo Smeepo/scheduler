@@ -1,4 +1,4 @@
-package de.patricklass.scheduler;
+package de.patricklass.scheduler.control;
 
 import com.sun.xml.internal.bind.v2.TODO;
 import javafx.event.EventHandler;

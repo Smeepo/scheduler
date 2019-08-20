@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * Starter for JavaFX using Spring
- * @author minh
+ * @author Patrick Laß
  */
 @SpringBootApplication
 public class SchedulerApplication extends Application {
