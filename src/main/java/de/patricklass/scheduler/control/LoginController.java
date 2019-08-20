@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,6 @@ import javax.security.auth.login.CredentialException;
  */
 @Controller
 public class LoginController {
-
 
     @FXML
     private TextField userTextField;
@@ -36,8 +37,9 @@ public class LoginController {
 
     private SceneManager sceneManager;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    public LoginController(@Qualifier("loginService-offline") LoginService loginService, SceneManager sceneManager) {
+    public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager) {
         this.loginService = loginService;
         this.sceneManager = sceneManager;
     }
