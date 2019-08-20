@@ -40,7 +40,7 @@ public class SchedulerApplication extends Application {
         fxmlMap.put("adminMain", "/fxml/adminMain.fxml");
         fxmlMap.put("userView", "/fxml/userView.fxml");
         fxmlMap.put("invitationView", "/fxml/invitationView.fxml");
-        fxmlMap.put("adminCreateEvent", "/fxml/popupAdminEvent.fxml");
+        fxmlMap.put("adminCreateEvent", "/fxml/adminCreateEvent.fxml");
 
         fxmlMap.forEach((identifier, path) -> {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -66,7 +66,7 @@ public class SchedulerApplication extends Application {
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
 
         sceneManager.addScene("login", loginScene);
-        sceneManager.showScene("login");
+        sceneManager.showScene("userView");
         primaryStage.show();
     }
 
