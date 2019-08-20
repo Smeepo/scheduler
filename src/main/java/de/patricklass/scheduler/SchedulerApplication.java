@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -29,6 +31,8 @@ public class SchedulerApplication extends Application {
 
     private static SceneManager sceneManager;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(SchedulerApplication.class);
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         sceneManager = new SceneManager(primaryStage);
@@ -46,13 +50,13 @@ public class SchedulerApplication extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setControllerFactory(springContext::getBean);
             fxmlLoader.setLocation(getClass().getResource(path));
-            Parent adminOverviewNode = null;
             try {
-                adminOverviewNode = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
+                Parent rootNode = fxmlLoader.load();
+                sceneManager.addScene(identifier, new Scene(rootNode));
+            } catch (IOException | IllegalStateException e) {
+                LOGGER.error("Location for Scene \""+identifier+"\" may not be correct:");
+                LOGGER.error(e.getMessage());
             }
-            sceneManager.addScene(identifier, new Scene(adminOverviewNode));
         });
 
         FXMLLoader fxmlLoader = new FXMLLoader();

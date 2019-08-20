@@ -3,6 +3,7 @@ package de.patricklass.scheduler.control;
 import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.service.LoginService;
+import de.patricklass.scheduler.service.MockDataService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -23,7 +24,6 @@ import javax.security.auth.login.CredentialException;
 @Controller
 public class LoginController {
 
-
     @FXML
     private TextField userTextField;
 
@@ -42,10 +42,12 @@ public class LoginController {
 
     private SceneManager sceneManager;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    public LoginController(@Qualifier("loginService-offline") LoginService loginService, SceneManager sceneManager) {
+    public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, MockDataService mockDataService) {
         this.loginService = loginService;
         this.sceneManager = sceneManager;
+        mockDataService.initRepositoryData();
     }
 
     /**
