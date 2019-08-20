@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 
 /**
- *  User's view after loggin in. Shows user's groups and events.
+ *  User's view after logging in. Shows user's groups and events.
  * @author minh
  */
 @Controller
@@ -23,7 +23,6 @@ public class UserViewController {
 
     @FXML
     private Button btnLogout;
-
 
     //should be generated dynamically based on amount of events/dates
     @FXML

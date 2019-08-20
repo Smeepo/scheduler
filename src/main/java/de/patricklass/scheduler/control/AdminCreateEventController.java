@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 @Controller
 public class AdminCreateEventController {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @FXML
     private TextField groupField;
@@ -44,7 +47,7 @@ public class AdminCreateEventController {
      */
     @FXML
     public void initialize(){
-        System.out.println("sdfdsfs");
+        LOGGER.info("Initialized AdminCreateEventController");
         nameField.setText("Lorem Ipsum");
         timeField.setText("Time as String?");
         dateField.setValue(LocalDate.now());
@@ -55,11 +58,11 @@ public class AdminCreateEventController {
 
     public void createEvent(){
         //creates event
-        System.out.println("event created");
+        LOGGER.info("event created");
     }
 
     public void cancel(){
         //close scene
-        System.out.println("closed");
+        LOGGER.info("closed");
     }
 }
