@@ -1,5 +1,7 @@
 package de.patricklass.scheduler.model;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,9 +14,9 @@ public class UserCredentials {
     @Column
     private String passwordEncrypted;
 
-    public UserCredentials(String userName, String passwordEncrypted) {
+    public UserCredentials(String userName, String passwordPlain) {
         this.userName = userName;
-        this.passwordEncrypted = passwordEncrypted;
+        this.passwordEncrypted = BCrypt.hashpw(passwordPlain, BCrypt.gensalt(14));
     }
 
     public void setUserName(String userName) {
