@@ -42,8 +42,6 @@ public class LoginController {
 
     private SceneManager sceneManager;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-
     public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, MockDataService mockDataService) {
         this.loginService = loginService;
         this.sceneManager = sceneManager;

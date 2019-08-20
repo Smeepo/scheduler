@@ -1,12 +1,22 @@
 package de.patricklass.scheduler.control;
 
+import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.repository.GroupRepository;
+import de.patricklass.scheduler.repository.InvitationRepository;
+import de.patricklass.scheduler.service.LoginService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *  User's view after logging in. Shows user's groups and events.
@@ -16,10 +26,26 @@ import java.util.ArrayList;
 public class UserViewController {
     private ArrayList<String> stringArrayList = new ArrayList<>();
 
+    private GroupRepository groupRepository;
+
+    private InvitationRepository invitationRepository;
+
+    private LoginService loginService;
+
+    private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+
+
     @FXML
-    private ListView<String> eventListView;
+    private VBox groupBox;
+
+    @FXML
+    private BorderPane borderPane;
+
     @FXML
     private Accordion groupAccordion;
+
+    @FXML
+    private ListView<String> eventListView;
 
     @FXML
     private Button btnLogout;
@@ -38,13 +64,20 @@ public class UserViewController {
 
     @FXML
     public void initialize() {
-        stringArrayList.add("hallo");
+        stringArrayList.add("test");
         stringArrayList.add("wie geht's?");
         stringArrayList.add("This is a placeholder event");
         // Pane should get name of a group
         titledPaneOne.setText("PLACEHOLDER GROUP");
         ObservableList<String> listViewContents =  FXCollections.observableList(stringArrayList);
         eventListView.setItems(listViewContents);
+
+    }
+
+    public UserViewController(GroupRepository groupRepository, InvitationRepository invitationRepository, @Qualifier("loginService-local") LoginService loginService){
+        this.groupRepository = groupRepository;
+        this.invitationRepository = invitationRepository;
+        this.loginService = loginService;
     }
 
     public void logout(){
@@ -57,5 +90,12 @@ public class UserViewController {
         alert.setContentText("You just pressed the logout button");
 
         alert.showAndWait();
+
+        //loads all groups the user is part of
+        List<Group> test = groupRepository.findAllByUsersContains(loginService.getAuthenticatedUser());
+        for(Group i : test){
+            titledPaneOne.setText(i.getGroupName());
+
+        };
     }
 }

@@ -52,7 +52,8 @@ public class SchedulerApplication extends Application {
             fxmlLoader.setLocation(getClass().getResource(path));
             try {
                 Parent rootNode = fxmlLoader.load();
-                sceneManager.addScene(identifier, new Scene(rootNode));
+                //gives every Scene the same size
+                sceneManager.addScene(identifier, new Scene(rootNode,800,600));
             } catch (IOException | IllegalStateException e) {
                 LOGGER.error("Location for Scene \""+identifier+"\" may not be correct:");
                 LOGGER.error(e.getMessage());
@@ -70,7 +71,7 @@ public class SchedulerApplication extends Application {
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
 
         sceneManager.addScene("login", loginScene);
-        sceneManager.showScene("userView");
+        sceneManager.showScene("login");
         primaryStage.show();
     }
 
