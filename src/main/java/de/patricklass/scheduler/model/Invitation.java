@@ -16,6 +16,12 @@ public class Invitation {
     @Column
     private LocalDate date;
 
+    @Column
+    private String name;
+
+    @Column
+    private String description;
+
     @ElementCollection
     private Map<User, InvitationStatus> statusMap;
 
@@ -28,29 +34,68 @@ public class Invitation {
     }
 
     @Override
+    public String toString() {
+        return "Invitation{" +
+                "id=" + id +
+                ", date=" + date +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", statusMap=" + statusMap +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Invitation)) return false;
 
         Invitation that = (Invitation) o;
 
-        if (id != that.id) return false;
-        return date.equals(that.date);
+        return getId() == that.getId();
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + date.hashCode();
-        return result;
+        return getId();
     }
 
-    @Override
-    public String toString() {
-        return "Invitation{" +
-                "id=" + id +
-                ", date=" + date +
-                ", statusMap=" + statusMap +
-                '}';
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Map<User, InvitationStatus> getStatusMap() {
+        return statusMap;
+    }
+
+    public void setStatusMap(Map<User, InvitationStatus> statusMap) {
+        this.statusMap = statusMap;
     }
 }
