@@ -21,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  User's view after logging in. Shows user's groups and events.
+ * //TODO @minh: fix   |this|   typo
+ *  User's view after loggin in. Shows user's groups and events.
  * @author minh
  */
 @Controller
@@ -52,6 +53,7 @@ public class UserViewController {
     @FXML
     private Button btnLogout;
 
+
     //should be generated dynamically based on amount of events/dates
     @FXML
     private Button btnAccept;
@@ -66,7 +68,7 @@ public class UserViewController {
 
     @FXML
     public void initialize() {
-        stringArrayList.add("test");
+        stringArrayList.add("hallo");
         stringArrayList.add("wie geht's?");
         stringArrayList.add("This is a placeholder event");
         // Pane should get name of a group
