@@ -1,10 +1,11 @@
 package de.patricklass.scheduler.control;
 
+import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.model.User;
+import de.patricklass.scheduler.repository.GroupRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class AdminCreateEventController {
     private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @FXML
-    private TextField groupField;
+    private ChoiceBox<Group> choiceBoxGroup;
 
     @FXML
     private Button btnCancel;
@@ -42,19 +43,33 @@ public class AdminCreateEventController {
     @FXML
     private Button btnCreate;
 
+    private GroupRepository groupRepository;
+
+    public AdminCreateEventController(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
+
     /**
      * groupField is populated by previous scene(AdminGroupOverView)
      */
     @FXML
     public void initialize(){
-        LOGGER.info("Initialized AdminCreateEventController");
-        nameField.setText("Lorem Ipsum");
-        timeField.setText("Time as String?");
-        dateField.setValue(LocalDate.now());
-        descriptionArea.setText("Sample description");
-        groupField.setText("Group name");
+        choiceBoxGroup.setConverter(new StringConverter<Group>() {
+            @Override
+            public String toString(Group object) {
+                return object.getGroupName();
+            }
+
+            @Override
+            public Group fromString(String string) {
+                return null;
+            }
+        });
     }
 
+    public void loadForUser(User user){
+        choiceBoxGroup.getItems().addAll(groupRepository.findAllByUsersContains(user));
+    }
 
     public void createEvent(){
         //creates event

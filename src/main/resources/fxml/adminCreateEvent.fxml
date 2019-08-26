@@ -19,11 +19,11 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="groupField">
+                  <ChoiceBox fx:id="choiceBoxGroup" prefWidth="150.0">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
-                  </TextField>
+                  </ChoiceBox>
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="238.0">

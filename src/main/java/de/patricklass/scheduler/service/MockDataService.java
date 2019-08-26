@@ -60,12 +60,12 @@ public class MockDataService {
 
         Group group1 = new Group("coole Kidz");
         group1.getUsers().addAll(users.subList(0,4));
-        Invitation invite1 = new Invitation(LocalDate.now().plusDays(10), group1);
+        Invitation invite1 = new Invitation(LocalDate.now().plusDays(10), group1, "foo", "bar");
         group1.getInvitations().add(invite1);
 
         Group group2 = new Group("Die heftigen Heftigen");
         group2.getUsers().addAll(users.subList(4,users.size()));
-        Invitation invite2 = new Invitation(LocalDate.now().plusDays(10).plusMonths(2), group2);
+        Invitation invite2 = new Invitation(LocalDate.now().plusDays(10).plusMonths(2), group2, "boo", "far");
         group2.getInvitations().add(invite2);
 
         invitationRepository.save(invite1);
