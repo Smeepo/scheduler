@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class InvitationViewController {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @FXML
     private Button btnSendInv;
@@ -36,11 +40,11 @@ public class InvitationViewController {
     }
 
     public void sendInv(){
-        System.out.println("Torture squad sent");
+        LOGGER.info("Torture squad sent");
     }
 
     public void cancel(){
-        System.out.println("closed");
+        LOGGER.info("closed");
     }
 
 
