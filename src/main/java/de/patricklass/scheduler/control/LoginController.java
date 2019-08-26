@@ -1,7 +1,5 @@
 package de.patricklass.scheduler.control;
 
-import de.patricklass.scheduler.control.SceneManager;
-import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.service.LoginService;
 import de.patricklass.scheduler.service.MockDataService;
 import javafx.fxml.FXML;
@@ -11,7 +9,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
@@ -41,10 +38,12 @@ public class LoginController {
     private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     private SceneManager sceneManager;
+    private UserViewController userViewController;
 
-    public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, MockDataService mockDataService) {
+    public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, MockDataService mockDataService, UserViewController userViewController) {
         this.loginService = loginService;
         this.sceneManager = sceneManager;
+        this.userViewController = userViewController;
         mockDataService.initRepositoryData();
     }
 
@@ -59,10 +58,11 @@ public class LoginController {
                sceneManager.showScene("adminMain");
            }else{
                LOGGER.info("ENTERING PLEB MODE");
+               userViewController.initView();
                sceneManager.showScene("userView");
            };
 
-        } catch (CredentialException e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Authentication Error");
             alert.setHeaderText(null);

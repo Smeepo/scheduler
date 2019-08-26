@@ -16,7 +16,7 @@ public class Invitation {
     @Column
     private LocalDate date;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Map<User, InvitationStatus> statusMap;
 
     public Invitation() { }
@@ -52,5 +52,31 @@ public class Invitation {
                 ", date=" + date +
                 ", statusMap=" + statusMap +
                 '}';
+    }
+
+
+    // Getter & Setter
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public Map<User, InvitationStatus> getStatusMap() {
+        return statusMap;
+    }
+
+    public void setStatusMap(Map<User, InvitationStatus> statusMap) {
+        this.statusMap = statusMap;
     }
 }
