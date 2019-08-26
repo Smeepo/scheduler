@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findAllByGroupName(String groupName);
+    Group findOneByGroupName(String groupName);
     List<Group> findAllByUsersContains(User user);
 }

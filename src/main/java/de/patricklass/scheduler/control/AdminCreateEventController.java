@@ -1,8 +1,10 @@
 package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.model.Invitation;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
+import de.patricklass.scheduler.repository.InvitationRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
@@ -44,9 +46,13 @@ public class AdminCreateEventController {
     private Button btnCreate;
 
     private GroupRepository groupRepository;
+    private InvitationRepository invitationRepository;
+    private SceneManager sceneManager;
 
-    public AdminCreateEventController(GroupRepository groupRepository) {
+    public AdminCreateEventController(GroupRepository groupRepository, InvitationRepository invitationRepository, SceneManager sceneManager) {
         this.groupRepository = groupRepository;
+        this.invitationRepository = invitationRepository;
+        this.sceneManager = sceneManager;
     }
 
     /**
@@ -62,22 +68,37 @@ public class AdminCreateEventController {
 
             @Override
             public Group fromString(String string) {
-                return null;
+                return groupRepository.findOneByGroupName(string);
             }
         });
     }
 
     public void loadForUser(User user){
+        choiceBoxGroup.getItems().clear();
         choiceBoxGroup.getItems().addAll(groupRepository.findAllByUsersContains(user));
     }
 
     public void createEvent(){
-        //creates event
+        Group group = choiceBoxGroup.getValue();
+        Invitation invitation = new Invitation(
+                dateField.getValue(),
+                group,
+                nameField.getText(),
+                descriptionArea.getText()
+        );
+
+        group.getInvitations().add(invitation);
+        invitationRepository.save(invitation);
+        groupRepository.save(group);
+
+
         LOGGER.info("event created");
+        sceneManager.showLastScene();
     }
 
     public void cancel(){
         //close scene
         LOGGER.info("closed");
+        sceneManager.showLastScene();
     }
 }

@@ -1,18 +1,26 @@
 package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.control.SceneManager;
+import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.model.Invitation;
+import de.patricklass.scheduler.model.User;
+import de.patricklass.scheduler.repository.GroupRepository;
+import de.patricklass.scheduler.repository.InvitationRepository;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 
 @Controller
@@ -23,10 +31,10 @@ public class AdminGroupOverviewController {
     private Button adminGroupOverviewCreateInvitationButton = new Button();
 
     @FXML
-    private TableView<?> adminGroupOverviewUserTableView = new TableView<>();
+    private TableView<User> adminGroupOverviewUserTableView = new TableView<>();
 
     @FXML
-    private TableView<?> adminGroupOverviewInvitationTableView = new TableView<>();
+    private TableView<Invitation> adminGroupOverviewInvitationTableView = new TableView<>();
 
     @FXML
     private Button adminGroupOverviewRemoveUserButton = new Button();
@@ -44,20 +52,29 @@ public class AdminGroupOverviewController {
     private TextField adminGroupOverviewNameTextfield = new TextField();
 
     @FXML
-    private TableColumn<?, ?> adminGroupOverviewInvitationColumn = new TableColumn<>();
+    private TableColumn<Invitation, String> adminGroupOverviewInvitationColumn = new TableColumn<>();
 
     @FXML
-    private TableColumn<?, ?> adminGroupOverviewUserColumn = new TableColumn<>();
+    private TableColumn<User, String> adminGroupOverviewUserColumn = new TableColumn<>();
 
     @FXML
     private SceneManager sceneManager;
+    private InvitationRepository invitationRepository;
+    private GroupRepository groupRepository;
 
-    public AdminGroupOverviewController(SceneManager sceneManager) {
+    private Group loadedGroup;
+
+    public AdminGroupOverviewController(SceneManager sceneManager, InvitationRepository invitationRepository, GroupRepository groupRepository) {
         this.sceneManager = sceneManager;
+        this.invitationRepository = invitationRepository;
+        this.groupRepository = groupRepository;
     }
 
     @FXML
     private void initialize(){
+
+        initTableViews();
+
         adminGroupOverviewDeleteInvitationButton.setOnAction((event -> {
             final Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
@@ -66,9 +83,12 @@ public class AdminGroupOverviewController {
             dialogVbox.getChildren().add(new Text("Möchten Sie diesen Termin wirklich löschen?"));
             Button yesButton = new Button("Ja");
             yesButton.setOnAction((event1 -> {
+                Invitation selectedInvitation = adminGroupOverviewInvitationTableView.getSelectionModel().getSelectedItem();
+                loadedGroup.getInvitations().remove(selectedInvitation);
+                groupRepository.save(loadedGroup);
+                invitationRepository.delete(selectedInvitation);
+                adminGroupOverviewInvitationTableView.getItems().remove(selectedInvitation);
                 dialog.close();
-
-                //TODO delete invitation from database
             }));
             Button noButton = new Button("Nein");
             yesButton.setOnAction((event1 -> {
@@ -89,9 +109,11 @@ public class AdminGroupOverviewController {
             dialogVbox.getChildren().add(new Text("Möchten Sie diesen Nutzer wirklich entfernen?"));
             Button yesButton = new Button("Ja");
             yesButton.setOnAction((event1 -> {
+                User selectedUser = adminGroupOverviewUserTableView.getSelectionModel().getSelectedItem();
+                loadedGroup.getUsers().remove(selectedUser);
+                groupRepository.save(loadedGroup);
+                adminGroupOverviewUserTableView.getItems().remove(selectedUser);
                 dialog.close();
-
-                //TODO remove user from group
             }));
             Button noButton = new Button("Nein");
             yesButton.setOnAction((event1 -> {
@@ -107,6 +129,19 @@ public class AdminGroupOverviewController {
         adminGroupOverviewBackButton.setOnAction(event -> {
             sceneManager.showLastScene();
         });
+    }
+
+    private void initTableViews() {
+        adminGroupOverviewInvitationColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        adminGroupOverviewUserColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
+    }
+
+    public void loadForGroup(Group group) {
+        loadedGroup = group;
+        adminGroupOverviewUserTableView.getItems().clear();
+        adminGroupOverviewUserTableView.getItems().addAll(group.getUsers());
+        adminGroupOverviewInvitationTableView.getItems().clear();
+        adminGroupOverviewInvitationTableView.getItems().addAll(group.getInvitations());
     }
 }
 
