@@ -1,6 +1,7 @@
 package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.model.Invitation;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
 import de.patricklass.scheduler.service.LoginService;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,10 +94,11 @@ public class UserViewController {
         alert.showAndWait();
 
         //loads all groups the user is part of
+        // this function needs to be called when scene is loaded
         List<Group> test = groupRepository.findAllByUsersContains(loginService.getAuthenticatedUser());
         for(Group i : test){
             titledPaneOne.setText(i.getGroupName());
-
+           LOGGER.info(i.getGroupName());
         };
     }
 }
