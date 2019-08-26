@@ -50,7 +50,7 @@ public class LoginController {
         try{
             loginService.login(userTextField.getText(), passwordField.getText());
 
-           if( loginService.login(userTextField.getText(), passwordField.getText())!= null){
+           if( loginService.login(userTextField.getText(), passwordField.getText()).isAdmin()){
                System.out.println("YOU'RE IN");
                sceneManager.showScene("adminMain");
            };
