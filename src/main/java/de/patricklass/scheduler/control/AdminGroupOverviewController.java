@@ -1,6 +1,9 @@
 package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.control.SceneManager;
+import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.model.User;
+import de.patricklass.scheduler.repository.GroupRepository;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,12 +21,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class AdminGroupOverviewController {
 
-
     @FXML
     private Button adminGroupOverviewCreateInvitationButton = new Button();
 
     @FXML
-    private TableView<?> adminGroupOverviewUserTableView = new TableView<>();
+    private TableView<User> adminGroupOverviewUserTableView = new TableView<User>();
 
     @FXML
     private TableView<?> adminGroupOverviewInvitationTableView = new TableView<>();
@@ -49,11 +51,17 @@ public class AdminGroupOverviewController {
     @FXML
     private TableColumn<?, ?> adminGroupOverviewUserColumn = new TableColumn<>();
 
-    @FXML
+
     private SceneManager sceneManager;
 
-    public AdminGroupOverviewController(SceneManager sceneManager) {
+    private GroupRepository groupRepository;
+
+    private Group group;
+
+    public AdminGroupOverviewController(SceneManager sceneManager, GroupRepository groupRepository) {
         this.sceneManager = sceneManager;
+        this.groupRepository = groupRepository;
+
     }
 
     @FXML
@@ -91,7 +99,11 @@ public class AdminGroupOverviewController {
             yesButton.setOnAction((event1 -> {
                 dialog.close();
 
-                //TODO remove user from group
+                User selectedUser = adminGroupOverviewUserTableView.getSelectionModel().getSelectedItem();
+                adminGroupOverviewUserTableView.getItems().remove(selectedUser);
+                group.getUsers().remove(selectedUser);
+                groupRepository.save(group);
+
             }));
             Button noButton = new Button("Nein");
             yesButton.setOnAction((event1 -> {

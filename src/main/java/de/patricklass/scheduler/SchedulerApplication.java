@@ -21,6 +21,7 @@ import java.util.Map;
  * Starter for JavaFX using Spring
  * @author Patrick Laß
  * @author minh
+ * @author jens
  */
 @SpringBootApplication
 public class SchedulerApplication extends Application {

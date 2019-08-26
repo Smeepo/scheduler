@@ -2,6 +2,7 @@ package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.repository.GroupRepository;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +13,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
+
+/**
+ * Controller for the admin create a group window
+ * @author jens
+ */
 
 @Controller
 public class AdminMainCreateGroup {
@@ -28,8 +34,11 @@ public class AdminMainCreateGroup {
 
     private SceneManager sceneManager;
 
-    public AdminMainCreateGroup(SceneManager sceneManager) {
+    private GroupRepository groupRepository;
+
+    public AdminMainCreateGroup(SceneManager sceneManager, GroupRepository groupRepository) {
         this.sceneManager = sceneManager;
+        this.groupRepository = groupRepository;
     }
 
     @FXML
@@ -40,12 +49,12 @@ public class AdminMainCreateGroup {
 
             VBox dialogVbox = new VBox(20);
             dialogVbox.getChildren().add(new Text("Gruppe erfolgreich angelegt"));
+            //create a Group
+            groupRepository.save(new Group(adminMainCreateGroupNameTextfield.getText()));
             Button okButton = new Button("OK");
             okButton.setOnAction((event1 -> {
                 dialog.close();
                 sceneManager.showLastScene();
-
-                //TODO add Group to database
             }));
             dialogVbox.getChildren().add(okButton);
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
