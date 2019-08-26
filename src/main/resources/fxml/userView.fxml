@@ -22,7 +22,7 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <ListView fx:id="eventListView" prefHeight="255.0" prefWidth="222.0">
+            <ListView fx:id="invitationListView" prefHeight="255.0" prefWidth="222.0">
                <VBox.margin>
                   <Insets right="10.0" top="10.0" />
                </VBox.margin>
@@ -39,43 +39,6 @@
                </VBox.margin>
             </Label>
             <Accordion fx:id="groupAccordion">
-              <panes>
-                <TitledPane fx:id="titledPaneOne" animated="false" text="untitled 1">
-                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0">
-                           <children>
-                              <HBox prefHeight="38.0" prefWidth="255.0">
-                                 <children>
-                                    <Label text="Lorem Ipsum Dolor Sit Amet">
-                                       <HBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Button fx:id="btnAccept" mnemonicParsing="false" text="Yes" />
-                                    <Button fx:id="btnDecline" mnemonicParsing="false" text="Yes²" />
-                                 </children>
-                              </HBox>
-                              <HBox prefHeight="38.0" prefWidth="255.0">
-                                 <children>
-                                    <Label text="Lorem Ipsum Dolor Sit Amet">
-                                       <HBox.margin>
-                                          <Insets left="10.0" right="10.0" />
-                                       </HBox.margin>
-                                    </Label>
-                                    <Button mnemonicParsing="false" text="Yes" />
-                                    <Button mnemonicParsing="false" text="Yes²" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-                <TitledPane animated="false" text="untitled 2">
-                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0" />
-                     </content>
-                  </TitledPane>
-              </panes>
                <VBox.margin>
                   <Insets bottom="50.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>

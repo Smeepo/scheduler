@@ -2,7 +2,9 @@ package de.patricklass.scheduler.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "groups")
@@ -16,12 +18,12 @@ public class Group {
     private String groupName;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<User> users = new ArrayList<>();
+    private Set<User> users = new HashSet<>();
 
-    @OneToMany
-    private List<Invitation> invitations = new ArrayList<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Invitation> invitations = new HashSet<>();
 
-    public List<Invitation> getInvitations() {
+    public Set<Invitation> getInvitations() {
         return invitations;
     }
 
@@ -47,7 +49,7 @@ public class Group {
         this.groupName = groupName;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
