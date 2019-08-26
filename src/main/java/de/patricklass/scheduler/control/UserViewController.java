@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 
 /**
+ * //TODO @minh: fix   |this|   typo
  *  User's view after loggin in. Shows user's groups and events.
  * @author minh
  */
@@ -18,6 +19,7 @@ public class UserViewController {
 
     @FXML
     private ListView<String> eventListView;
+
     @FXML
     private Accordion groupAccordion;
 
