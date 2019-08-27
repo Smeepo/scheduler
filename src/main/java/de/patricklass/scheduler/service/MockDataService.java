@@ -34,6 +34,8 @@ public class MockDataService {
     }
 
     public void initRepositoryData() {
+        User admin = new User("patrick");
+        admin.setAdmin(true);
         List<User> users = Arrays.asList(
                 new User("peter"),
                 new User("hans"),
@@ -42,24 +44,27 @@ public class MockDataService {
                 new User("joachim"),
                 new User("jennifer"),
                 new User("melina"),
-                new User("bernd")
-                );
+                new User("bernd"),
+                admin
+        );
         userRepository.saveAll(users);
 
         List<UserCredentials> credentials = Arrays.asList(
-            new UserCredentials("peter", "passwort"),
-            new UserCredentials("hans", "passwort"),
-            new UserCredentials("lisa", "passwort"),
-            new UserCredentials("winfried", "passwort"),
-            new UserCredentials("joachim", "passwort"),
-            new UserCredentials("jennifer", "passwort"),
-            new UserCredentials("melina", "passwort"),
-            new UserCredentials("bernd", "passwort")
+                new UserCredentials("peter", "passwort"),
+                new UserCredentials("hans", "passwort"),
+                new UserCredentials("lisa", "passwort"),
+                new UserCredentials("winfried", "passwort"),
+                new UserCredentials("joachim", "passwort"),
+                new UserCredentials("jennifer", "passwort"),
+                new UserCredentials("melina", "passwort"),
+                new UserCredentials("bernd", "passwort"),
+                new UserCredentials("patrick", "admin")
         );
         userCredentialsRepository.saveAll(credentials);
 
         Group group1 = new Group("coole Kidz");
         group1.getUsers().addAll(users.subList(0,4));
+        group1.getUsers().add(admin);
         Invitation invite1 = new Invitation(LocalDate.now().plusDays(10), group1, "foo", "bar");
         group1.getInvitations().add(invite1);
 

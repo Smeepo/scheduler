@@ -12,6 +12,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import java.util.Map;
  * @author jens
  */
 @SpringBootApplication
+@ComponentScan(basePackages = {"de.patricklass.scheduler.control","de.patricklass.scheduler.model","de.patricklass.scheduler.repository","de.patricklass.scheduler.service"})
 public class SchedulerApplication extends Application {
     private ConfigurableApplicationContext springContext;
 

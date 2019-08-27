@@ -1,29 +1,22 @@
 package de.patricklass.scheduler.control;
 
-import com.sun.xml.internal.bind.v2.TODO;
-import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.model.Group;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
+import de.patricklass.scheduler.repository.InvitationRepository;
 import de.patricklass.scheduler.repository.UserRepository;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
-
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 /**
  * Controller for the admin main page. Handles users and groups.
@@ -38,16 +31,16 @@ public class AdminMainController {
     private BorderPane adminMainBorderPane = new BorderPane();
 
     @FXML
-    private TableView<User> adminUserTableView = new TableView<User>();
+    private TableView<User> adminUserTableView = new TableView<>();
 
     @FXML
-    private TableView<Group> adminGroupTableView = new TableView<Group>();
+    private TableView<Group> adminGroupTableView = new TableView<>();
 
     @FXML
-    private TableColumn adminUserColumn = new TableColumn();
+    private TableColumn<User, String> adminUserColumn = new TableColumn<>();
 
     @FXML
-    private TableColumn adminGroupColumn = new TableColumn();
+    private TableColumn<Group, String> adminGroupColumn = new TableColumn<>();
 
     @FXML
     private Button addUserButton = new Button();
@@ -66,12 +59,14 @@ public class AdminMainController {
     private GroupRepository groupRepository;
 
     private UserRepository userRepository;
+    private InvitationRepository invitationRepository;
 
 
-    public AdminMainController(SceneManager sceneManager, GroupRepository groupRepository, UserRepository userRepository) {
+    public AdminMainController(SceneManager sceneManager, GroupRepository groupRepository, UserRepository userRepository, InvitationRepository invitationRepository) {
         this.sceneManager = sceneManager;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
+        this.invitationRepository = invitationRepository;
     }
 
     @FXML
@@ -115,10 +110,17 @@ public class AdminMainController {
             Button yesButton = new Button("Ja");
             yesButton.setOnAction((event1 -> {
                 dialog.close();
-
                 //get the selected User and send him to hell er.. delete him
                 User selectedUser = adminUserTableView.getSelectionModel().getSelectedItem();
-                adminGroupTableView.getItems().remove(selectedUser);
+                groupRepository.findAllByUsersContains(selectedUser).forEach(group -> {
+                    group.getUsers().remove(selectedUser);
+                    group.getInvitations().forEach(invitation -> {
+                        invitation.getStatusMap().remove(selectedUser);
+                        invitationRepository.save(invitation);
+                    });
+                    groupRepository.save(group);
+                });
+                adminUserTableView.getItems().remove(selectedUser);
                 userRepository.delete(selectedUser);
             }));
             Button noButton = new Button("Nein");
@@ -158,6 +160,14 @@ public class AdminMainController {
 
 
         }));
+
+        adminUserColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        adminGroupColumn.setCellValueFactory(new PropertyValueFactory<>("groupName"));
+    }
+
+    public void loadForUser(User user){
+        adminGroupTableView.getItems().addAll(groupRepository.findAll());
+        adminUserTableView.getItems().addAll(userRepository.findAll());
     }
 
 
