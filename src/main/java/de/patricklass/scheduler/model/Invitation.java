@@ -22,7 +22,7 @@ public class Invitation {
     @Column
     private String description;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Map<User, InvitationStatus> statusMap;
 
     public Invitation() { }

@@ -6,6 +6,10 @@ import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
 import de.patricklass.scheduler.service.*;
+import de.patricklass.scheduler.control.SceneManager;
+import de.patricklass.scheduler.model.Group;
+import de.patricklass.scheduler.model.User;
+import de.patricklass.scheduler.repository.GroupRepository;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -56,7 +60,7 @@ public class AdminGroupOverviewController {
     @FXML
     private TableColumn<User, String> adminGroupOverviewUserColumn = new TableColumn<>();
 
-    @FXML
+
     private SceneManager sceneManager;
     private InvitationRepository invitationRepository;
     private GroupRepository groupRepository;

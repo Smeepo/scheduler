@@ -20,7 +20,7 @@ public class Group {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> users = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Invitation> invitations = new HashSet<>();
 
     public Set<Invitation> getInvitations() {
