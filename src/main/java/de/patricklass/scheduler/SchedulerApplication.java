@@ -72,6 +72,7 @@ public class SchedulerApplication extends Application {
         Scene loginScene = new Scene(adminPopupNode, 800, 600);
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
 
+
         sceneManager.addScene("login", loginScene);
         sceneManager.showScene("login");
         primaryStage.show();

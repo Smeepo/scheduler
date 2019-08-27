@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
-import javax.security.auth.login.CredentialException;
-
 /**
  * Handles authentications and registrations
  * @author Minh
@@ -59,6 +57,7 @@ public class LoginController {
            }else{
                LOGGER.info("ENTERING PLEB MODE");
                userViewController.initView();
+               userViewController.initTableView();
                sceneManager.showScene("userView");
            };
 
