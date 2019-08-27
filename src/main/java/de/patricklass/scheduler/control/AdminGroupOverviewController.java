@@ -1,7 +1,7 @@
 package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.model.Group;
-import de.patricklass.scheduler.model.Invitation;
+import de.patricklass.scheduler.model.*;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
