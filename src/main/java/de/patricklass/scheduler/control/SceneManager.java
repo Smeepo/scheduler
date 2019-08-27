@@ -65,4 +65,8 @@ public class SceneManager {
         Scene lastScene = lastScenes.pop();
         primaryStage.setScene(lastScene);
     }
+
+    public void clearLastScenes() {
+        lastScenes.clear();
+    }
 }

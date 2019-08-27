@@ -6,6 +6,7 @@ import de.patricklass.scheduler.model.Invitation;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
+import de.patricklass.scheduler.service.LoginService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -61,19 +63,28 @@ public class AdminGroupOverviewController {
     private SceneManager sceneManager;
     private InvitationRepository invitationRepository;
     private GroupRepository groupRepository;
+    private AdminCreateEventController adminCreateEventController;
+    private LoginService loginService;
 
     private Group loadedGroup;
 
-    public AdminGroupOverviewController(SceneManager sceneManager, InvitationRepository invitationRepository, GroupRepository groupRepository) {
+    public AdminGroupOverviewController(SceneManager sceneManager, InvitationRepository invitationRepository, GroupRepository groupRepository, AdminCreateEventController adminCreateEventController, @Qualifier("loginService-local") LoginService loginService) {
         this.sceneManager = sceneManager;
         this.invitationRepository = invitationRepository;
         this.groupRepository = groupRepository;
+        this.adminCreateEventController = adminCreateEventController;
+        this.loginService = loginService;
     }
 
     @FXML
     private void initialize(){
 
         initTableViews();
+
+        adminGroupOverviewCreateInvitationButton.setOnAction((event -> {
+            adminCreateEventController.loadForUser(loginService.getAuthenticatedUser());
+            sceneManager.showScene("adminCreateEvent");
+        }));
 
         adminGroupOverviewDeleteInvitationButton.setOnAction((event -> {
             final Stage dialog = new Stage();

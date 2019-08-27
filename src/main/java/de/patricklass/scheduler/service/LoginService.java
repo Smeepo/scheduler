@@ -24,4 +24,6 @@ public interface LoginService {
      * @return currently authenticated User
      */
     User getAuthenticatedUser();
+
+    void logout();
 }

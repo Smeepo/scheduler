@@ -44,4 +44,9 @@ public class LoginServiceLocal implements LoginService {
     public User getAuthenticatedUser() {
         return this.authenticatedUser;
     }
+
+    @Override
+    public void logout() {
+        this.authenticatedUser = null;
+    }
 }

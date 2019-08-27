@@ -63,4 +63,10 @@ public class LoginServiceOfflineTest implements LoginService {
         return user;
     }
 
+    @Override
+    public void logout() {
+        this.user = null;
+        this.userName = null;
+    }
+
 }
