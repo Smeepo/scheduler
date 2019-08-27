@@ -1,12 +1,11 @@
 package de.patricklass.scheduler.control;
 
-import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.model.Group;
 import de.patricklass.scheduler.model.Invitation;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
-import de.patricklass.scheduler.service.LoginService;
+import de.patricklass.scheduler.service.*;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,8 +20,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-
-import javax.persistence.criteria.CriteriaBuilder;
 
 
 @Controller
