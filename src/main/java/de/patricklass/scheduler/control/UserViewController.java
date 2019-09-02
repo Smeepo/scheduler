@@ -79,7 +79,7 @@ public class UserViewController {
 
             // Get all invitations of the group
             for (Invitation invitation : group.getInvitations()) {
-                if(invitation.getStatusMap().get(loginService.getAuthenticatedUser()).equals(InvitationStatus.ACCEPTED)) {
+                if(InvitationStatus.ACCEPTED.equals(invitation.getStatusMap().get(loginService.getAuthenticatedUser()))) {
                     invitationTableView.getItems().add(invitation);
                 }
 
