@@ -162,7 +162,7 @@ public class AdminMainController {
         }));
 
         adminUserColumn.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getUserName() + (data.getValue().isAdmin() ? "(admin)" : "")
+                data.getValue().getUserName() + (data.getValue().isAdmin() ? " (admin)" : "")
         ));
         adminGroupColumn.setCellValueFactory(new PropertyValueFactory<>("groupName"));
     }
