@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static de.patricklass.scheduler.control.SceneManager.*;
+
 /**
  * Starter for JavaFX using Spring
  * @author Patrick Laß
@@ -43,12 +45,12 @@ public class SchedulerApplication extends Application {
         springContext = SpringApplication.run(SchedulerApplication.class);
 
         Map<String, String> fxmlMap = new HashMap<>();
-        fxmlMap.put("groupOverview", "/fxml/adminGroupOverview.fxml");
-        fxmlMap.put("createGroup", "/fxml/adminMainCreateGroup.fxml");
-        fxmlMap.put("adminMain", "/fxml/adminMain.fxml");
-        fxmlMap.put("userView", "/fxml/userView.fxml");
-        fxmlMap.put("invitationView", "/fxml/invitationView.fxml");
-        fxmlMap.put("adminCreateEvent", "/fxml/adminCreateEvent.fxml");
+        fxmlMap.put(ADMIN_GROUP_OVERVIEW, "/fxml/adminGroupOverview.fxml");
+        fxmlMap.put(CREATE_GROUP, "/fxml/adminMainCreateGroup.fxml");
+        fxmlMap.put(ADMIN_MAIN, "/fxml/adminMain.fxml");
+        fxmlMap.put(USER_VIEW, "/fxml/userView.fxml");
+        fxmlMap.put(INVITATION_VIEW, "/fxml/invitationView.fxml");
+        fxmlMap.put(ADMIN_CREATE_EVENT, "/fxml/adminCreateEvent.fxml");
 
         fxmlMap.forEach((identifier, path) -> {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -74,8 +76,8 @@ public class SchedulerApplication extends Application {
         Scene loginScene = new Scene(adminPopupNode, 800, 600);
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
 
-        sceneManager.addScene("login", loginScene);
-        sceneManager.showScene("login");
+        sceneManager.addScene(LOGIN, loginScene);
+        sceneManager.showScene(LOGIN);
         primaryStage.show();
     }
 

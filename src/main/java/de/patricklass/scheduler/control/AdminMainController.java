@@ -5,11 +5,13 @@ import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
 import de.patricklass.scheduler.repository.UserRepository;
+import de.patricklass.scheduler.service.LoginService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -17,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -54,19 +57,31 @@ public class AdminMainController {
     @FXML
     private Button createGroupButton = new Button();
 
+    @FXML
+    private Button toggleAdminButton = new Button();
+
     private SceneManager sceneManager;
 
     private GroupRepository groupRepository;
 
     private UserRepository userRepository;
     private InvitationRepository invitationRepository;
+    private LoginService loginService;
+    private AdminGroupOverviewController adminGroupOverviewController;
 
 
-    public AdminMainController(SceneManager sceneManager, GroupRepository groupRepository, UserRepository userRepository, InvitationRepository invitationRepository) {
+    public AdminMainController(SceneManager sceneManager,
+                               GroupRepository groupRepository,
+                               UserRepository userRepository,
+                               InvitationRepository invitationRepository,
+                               @Qualifier("loginService-local") LoginService loginService,
+                               AdminGroupOverviewController adminGroupOverviewController) {
         this.sceneManager = sceneManager;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
         this.invitationRepository = invitationRepository;
+        this.loginService = loginService;
+        this.adminGroupOverviewController = adminGroupOverviewController;
     }
 
     @FXML
@@ -157,18 +172,37 @@ public class AdminMainController {
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
             dialog.setScene(dialogScene);
             dialog.show();
-
-
         }));
+
+        toggleAdminButton.setOnAction(event -> {
+            User selectedUser = adminUserTableView.getSelectionModel().getSelectedItem();
+            if (selectedUser == null || selectedUser.equals(loginService.getAuthenticatedUser())) return;
+            selectedUser.setAdmin(!selectedUser.isAdmin());
+            userRepository.save(selectedUser);
+        });
 
         adminUserColumn.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getUserName() + (data.getValue().isAdmin() ? " (admin)" : "")
         ));
         adminGroupColumn.setCellValueFactory(new PropertyValueFactory<>("groupName"));
+
+        //Show ADMIN_GROUP_OVERVIEW on double click
+        adminGroupTableView.setRowFactory( tv -> {
+            TableRow<Group> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    adminGroupOverviewController.loadForGroup(row.getItem());
+                    sceneManager.showScene(SceneManager.ADMIN_GROUP_OVERVIEW);
+                }
+            });
+            return row ;
+        });
     }
 
     public void loadTables(){
+        adminGroupTableView.getItems().clear();
         adminGroupTableView.getItems().addAll(groupRepository.findAll());
+        adminUserTableView.getItems().clear();
         adminUserTableView.getItems().addAll(userRepository.findAll());
     }
 

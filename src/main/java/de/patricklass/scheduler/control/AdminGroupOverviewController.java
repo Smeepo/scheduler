@@ -1,27 +1,22 @@
 package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.model.Group;
-import de.patricklass.scheduler.model.*;
+import de.patricklass.scheduler.model.Invitation;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
-import de.patricklass.scheduler.service.*;
-import de.patricklass.scheduler.control.SceneManager;
-import de.patricklass.scheduler.model.Group;
-import de.patricklass.scheduler.model.User;
-import de.patricklass.scheduler.repository.GroupRepository;
+import de.patricklass.scheduler.service.LoginService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
@@ -60,21 +55,33 @@ public class AdminGroupOverviewController {
     @FXML
     private TableColumn<User, String> adminGroupOverviewUserColumn = new TableColumn<>();
 
+    @FXML
+    private Label groupNameLabel = new Label();
+
 
     private SceneManager sceneManager;
     private InvitationRepository invitationRepository;
     private GroupRepository groupRepository;
     private AdminCreateEventController adminCreateEventController;
     private LoginService loginService;
+    private InvitationViewController invitationViewController;
 
-    private Group loadedGroup;
+    Group loadedGroup;
 
-    public AdminGroupOverviewController(SceneManager sceneManager, InvitationRepository invitationRepository, GroupRepository groupRepository, AdminCreateEventController adminCreateEventController, @Qualifier("loginService-local") LoginService loginService) {
+    private Logger LOGGER = LoggerFactory.getLogger(AdminGroupOverviewController.class);
+
+    public AdminGroupOverviewController(SceneManager sceneManager,
+                                        InvitationRepository invitationRepository,
+                                        GroupRepository groupRepository,
+                                        AdminCreateEventController adminCreateEventController,
+                                        @Qualifier("loginService-local") LoginService loginService,
+                                        InvitationViewController invitationViewController) {
         this.sceneManager = sceneManager;
         this.invitationRepository = invitationRepository;
         this.groupRepository = groupRepository;
         this.adminCreateEventController = adminCreateEventController;
         this.loginService = loginService;
+        this.invitationViewController = invitationViewController;
     }
 
     @FXML
@@ -83,7 +90,7 @@ public class AdminGroupOverviewController {
         initTableViews();
 
         adminGroupOverviewCreateInvitationButton.setOnAction((event -> {
-            adminCreateEventController.loadForUser(loginService.getAuthenticatedUser());
+            adminCreateEventController.loadForUser(loginService.getAuthenticatedUser(), this);
             sceneManager.showScene("adminCreateEvent");
         }));
 
@@ -103,7 +110,7 @@ public class AdminGroupOverviewController {
                 dialog.close();
             }));
             Button noButton = new Button("Nein");
-            yesButton.setOnAction((event1 -> {
+            noButton.setOnAction((event1 -> {
                 dialog.close();
             }));
             dialogVbox.getChildren().add(yesButton);
@@ -122,13 +129,14 @@ public class AdminGroupOverviewController {
             Button yesButton = new Button("Ja");
             yesButton.setOnAction((event1 -> {
                 User selectedUser = adminGroupOverviewUserTableView.getSelectionModel().getSelectedItem();
+                LOGGER.info("Trying to remove User "+selectedUser.toString()+" from Group "+loadedGroup.toString());
                 loadedGroup.getUsers().remove(selectedUser);
                 groupRepository.save(loadedGroup);
                 adminGroupOverviewUserTableView.getItems().remove(selectedUser);
                 dialog.close();
             }));
             Button noButton = new Button("Nein");
-            yesButton.setOnAction((event1 -> {
+            noButton.setOnAction((event1 -> {
                 dialog.close();
             }));
             dialogVbox.getChildren().add(yesButton);
@@ -141,6 +149,17 @@ public class AdminGroupOverviewController {
         adminGroupOverviewBackButton.setOnAction(event -> {
             sceneManager.showLastScene();
         });
+
+        //Show ADMIN_GROUP_OVERVIEW on double click
+        adminGroupOverviewInvitationTableView.setRowFactory( tv -> {
+            TableRow<Invitation> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    //TODO after merge: Load invitation View
+                }
+            });
+            return row ;
+        });
     }
 
     private void initTableViews() {
@@ -150,10 +169,15 @@ public class AdminGroupOverviewController {
 
     public void loadForGroup(Group group) {
         loadedGroup = group;
+        loadTables();
+        groupNameLabel.setText(group.getGroupName());
+    }
+
+    public void loadTables() {
         adminGroupOverviewUserTableView.getItems().clear();
-        adminGroupOverviewUserTableView.getItems().addAll(group.getUsers());
+        adminGroupOverviewUserTableView.getItems().addAll(loadedGroup.getUsers());
         adminGroupOverviewInvitationTableView.getItems().clear();
-        adminGroupOverviewInvitationTableView.getItems().addAll(group.getInvitations());
+        adminGroupOverviewInvitationTableView.getItems().addAll(loadedGroup.getInvitations());
     }
 }
 
