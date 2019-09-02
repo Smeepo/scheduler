@@ -8,13 +8,16 @@ import de.patricklass.scheduler.repository.UserRepository;
 import de.patricklass.scheduler.service.LoginService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -24,10 +27,10 @@ import org.springframework.stereotype.Controller;
 
 /**
  * Controller for the admin main page. Handles users and groups.
- *
+ * TODO @Jens add exception handling
  * @author Jens
+ * @author Minh (modal styling)
  */
-
 @Controller
 public class AdminMainController {
 
@@ -93,15 +96,16 @@ public class AdminMainController {
 
         delGroupButton.setOnAction((event -> {
             final Stage dialog = new Stage();
+            // Add Icon to the top left corner
+            dialog.getIcons().add(new Image("images/dabrick_final.png"));
             dialog.initModality(Modality.APPLICATION_MODAL);
 
-            VBox dialogVbox = new VBox(20);
-            dialogVbox.getChildren().add(new Text("Möchten Sie die Gruppe wirklich löschen?"));
+            // Create Y/N buttons
             Button yesButton = new Button("Ja");
             yesButton.setOnAction((event1 -> {
                 dialog.close();
 
-                //get the selcted group and remove it from the table and repository
+                //get the selected group and remove it from the table and repository
                 Group selectedGroup = adminGroupTableView.getSelectionModel().getSelectedItem();
                 adminGroupTableView.getItems().remove(selectedGroup);
                 groupRepository.delete(selectedGroup);
@@ -110,19 +114,33 @@ public class AdminMainController {
             noButton.setOnAction(event1 -> {
                 dialog.close();
             });
-            dialogVbox.getChildren().add(yesButton);
-            dialogVbox.getChildren().add(noButton);
-            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+
+            // Create a basic layout with a borderpane and V-/HBoxes
+            BorderPane rootBorderPane = new BorderPane();
+            VBox vBox = new VBox(20);
+            HBox dialogHBox = new HBox(20);
+            // Set alignment of child nodes
+            vBox.setAlignment(Pos.CENTER);
+            dialogHBox.setAlignment(Pos.CENTER);
+            // Add content
+            vBox.getChildren().add(new Text("Möchten Sie die Gruppe wirklich löschen?"));
+            dialogHBox.getChildren().add(yesButton);
+            dialogHBox.getChildren().add(noButton);
+            vBox.getChildren().add(dialogHBox);
+            rootBorderPane.setCenter(vBox);
+
+            Scene dialogScene = new Scene(rootBorderPane, 300, 200);
             dialog.setScene(dialogScene);
             dialog.show();
         }));
 
         delUserButton.setOnAction((event -> {
             final Stage dialog = new Stage();
+            // Add Icon to the top left corner
+            dialog.getIcons().add(new Image("images/dabrick_final.png"));
             dialog.initModality(Modality.APPLICATION_MODAL);
 
-            VBox dialogVbox = new VBox(20);
-            dialogVbox.getChildren().add(new Text("Möchten Sie den Nutzer wirklich löschen?"));
+            // Create Y/N buttons
             Button yesButton = new Button("Ja");
             yesButton.setOnAction((event1 -> {
                 dialog.close();
@@ -144,19 +162,30 @@ public class AdminMainController {
                 dialog.close();
             });
 
-            dialogVbox.getChildren().add(yesButton);
-            dialogVbox.getChildren().add(noButton);
-            Scene dialogScene = new Scene(dialogVbox, 300, 200);
+            // Create a basic layout with a borderpane and V-/HBoxes
+            BorderPane rootBorderPane = new BorderPane();
+            VBox vBox = new VBox(20);
+            HBox dialogHBox = new HBox(20);
+            // Set alignment of child nodes
+            vBox.setAlignment(Pos.CENTER);
+            dialogHBox.setAlignment(Pos.CENTER);
+            // Add content
+            vBox.getChildren().add(new Text("Möchten Sie den Nutzer wirklich löschen?"));
+            dialogHBox.getChildren().add(yesButton);
+            dialogHBox.getChildren().add(noButton);
+            vBox.getChildren().add(dialogHBox);
+            rootBorderPane.setCenter(vBox);
+
+            Scene dialogScene = new Scene(rootBorderPane, 300, 200);
             dialog.setScene(dialogScene);
             dialog.show();
         }));
 
         addUserButton.setOnAction((event -> {
             final Stage dialog = new Stage();
+            // Add Icon to the top left corner
+            dialog.getIcons().add(new Image("images/dabrick_final.png"));
             dialog.initModality(Modality.APPLICATION_MODAL);
-
-            VBox dialogVbox = new VBox(20);
-            dialogVbox.getChildren().add(new Text("Nutzer erfolgreich zu Gruppe hinzugefügt"));
 
             //Add the selected User put him into the selected Group. Then save the group
             User selectedUser = adminUserTableView.getSelectionModel().getSelectedItem();
@@ -169,7 +198,12 @@ public class AdminMainController {
                 dialog.close();
             }));
 
+            // Layout and alignment
+            VBox dialogVbox = new VBox(20);
+            dialogVbox.setAlignment(Pos.CENTER);
+            dialogVbox.getChildren().add(new Text("Nutzer erfolgreich zu Gruppe hinzugefügt"));
             dialogVbox.getChildren().add(okButton);
+
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
             dialog.setScene(dialogScene);
             dialog.show();

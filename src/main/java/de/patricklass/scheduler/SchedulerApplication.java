@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +72,10 @@ public class SchedulerApplication extends Application {
         fxmlLoader.setLocation(getClass().getResource("/fxml/login.fxml"));
         Parent adminPopupNode = fxmlLoader.load();
 
+        // Stage styling
         primaryStage.setTitle("DND Scheduler ALPHA v0.1");
+        // Add Icon to the top left corner
+        primaryStage.getIcons().add(new Image("images/dabrick_final.png"));
         //Custom CSS is inserted here
         Scene loginScene = new Scene(adminPopupNode, 800, 600);
         loginScene.getStylesheets().addAll(this.getClass().getResource("/css/style.css").toExternalForm());
