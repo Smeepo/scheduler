@@ -1,6 +1,7 @@
 package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.model.User;
+import de.patricklass.scheduler.repository.UserRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,7 +24,7 @@ public class InvitationViewController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    private User user;
+    private UserRepository userRepository;
 
     @FXML
     private TextField dateField;
@@ -44,13 +45,13 @@ public class InvitationViewController {
     }
 
     // Constructor
-    public InvitationViewController(User user){
-        this.user = user;
-    }
+    public InvitationViewController(UserRepository userRepository){
+        this.userRepository = userRepository;
+}
 
     // Init method that is called before scene is shown
     public void initView(){
-        memberTable.getItems().add(user);
+        memberTable.getItems().add(userRepository);
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
 
         // @ToDo get invitation date
