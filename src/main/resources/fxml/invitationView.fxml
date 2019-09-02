@@ -39,12 +39,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btnSendInv" mnemonicParsing="false" onAction="#sendInv" text="Send invitation">
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+            <Button fx:id="btnBack" mnemonicParsing="false" onAction="#goBack" text="Zurück" />
          </children>
       </HBox>
    </bottom>

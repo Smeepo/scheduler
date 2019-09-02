@@ -57,12 +57,12 @@ public class LoginController {
            if( loginService.login(userTextField.getText(), passwordField.getText()).isAdmin()){
                LOGGER.info("YOU'RE IN -- LOGGED IN AS ADMIN");
                 adminMainController.loadTables();
-               sceneManager.showScene("adminMain");
+               sceneManager.showScene(SceneManager.ADMIN_MAIN);
            }else{
                LOGGER.info("ENTERING PLEB MODE");
                userViewController.initView();
                userViewController.initTableView();
-               sceneManager.showScene("userView");
+               sceneManager.showScene(SceneManager.USER_VIEW);
            };
 
         } catch (Exception e) {
