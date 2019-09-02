@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.paint.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.GaussianBlur?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <BorderPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.patricklass.scheduler.control.LoginController">
    <center>
       <VBox alignment="CENTER" prefHeight="438.0" prefWidth="614.0" BorderPane.alignment="CENTER">
@@ -58,6 +55,13 @@
                <VBox.margin>
                   <Insets top="150.0" />
                </VBox.margin>
+               <graphic>
+                  <Rectangle fx:id="bgRectangle" arcHeight="10.0" arcWidth="10.0" fill="WHITE" height="84.0" opacity="0.5" stroke="WHITE" strokeType="INSIDE" width="408.0">
+                     <effect>
+                        <BoxBlur />
+                     </effect>
+                  </Rectangle>
+               </graphic>
             </Label>
          </children>
          <opaqueInsets>

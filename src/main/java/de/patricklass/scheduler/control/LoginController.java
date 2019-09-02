@@ -38,6 +38,7 @@ public class LoginController {
     private SceneManager sceneManager;
     private UserViewController userViewController;
     private AdminMainController adminMainController;
+    private InvitationViewController invitationViewController;
 
     public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, MockDataService mockDataService, UserViewController userViewController, AdminMainController adminMainController) {
         this.loginService = loginService;
@@ -60,6 +61,7 @@ public class LoginController {
            }else{
                LOGGER.info("ENTERING PLEB MODE");
                userViewController.initView();
+               userViewController.initTableView();
                sceneManager.showScene("userView");
            };
 
