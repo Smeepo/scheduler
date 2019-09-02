@@ -1,15 +1,18 @@
 package de.patricklass.scheduler.control;
 
+import de.patricklass.scheduler.model.Invitation;
+import de.patricklass.scheduler.model.InvitationStatus;
 import de.patricklass.scheduler.model.User;
-import de.patricklass.scheduler.repository.UserRepository;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+
+import java.util.Map;
 
 
 /**
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Controller;
  * Controller for viewing events and sending out invitations for those events.
  * GUI displays date and all users that are subscribed to that event
  * and their invitation status(ACCEPTED,DECLINED, NOT ANSWERED)
+ *
  * @author Minh
  */
 @Controller
@@ -24,51 +28,60 @@ public class InvitationViewController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    private UserRepository userRepository;
+    @FXML
+    private Label dateLabel;
 
     @FXML
-    private TextField dateField;
+    private Label nameLabel;
 
     @FXML
-    private TableView memberTable;
-
-
-    @FXML
-    private TableColumn<User,String> statusColumn = new TableColumn<>();
-
-    @FXML
-    private TableColumn<User, String> userColumn = new TableColumn<>();
+    private TableView<Map.Entry<User, InvitationStatus>> memberTable;
 
 
     @FXML
-    public void initialize(){
+    private TableColumn<Map.Entry<User, InvitationStatus>, String> statusColumn = new TableColumn<>();
+
+    @FXML
+    private TableColumn<Map.Entry<User, InvitationStatus>, String> userColumn = new TableColumn<>();
+
+
+    @FXML
+    public void initialize() {
+        userColumn.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getKey().getUserName()));
+        statusColumn.setCellValueFactory(value->new SimpleStringProperty(value.getValue().getValue().toString()));
     }
 
     // Constructor
-    public InvitationViewController(UserRepository userRepository){
-        this.userRepository = userRepository;
-}
+    public InvitationViewController() {
 
-    // Init method that is called before scene is shown
-    public void initView(){
-        memberTable.getItems().add(userRepository);
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
-
-        // @ToDo get invitation date
-        dateField.setPromptText("placeholder");
     }
 
-    // Init method
-    public void sendInv(){
+    // Init method that is called before scene is shown
+    public void initView() {
+    }
+
+    /**
+     * Called by GroupAdminOverview
+     * Loads all users and their statuses into the tableView
+     *
+     * @param invitation that was chosen in the previous scene
+     */
+    public void loadForInvitation(Invitation invitation) {
+        nameLabel.setText(invitation.getName());
+        dateLabel.setText(invitation.getDate().toString());
+        memberTable.getItems().addAll(invitation.getStatusMap().entrySet());
+
+        memberTable.setPrefHeight(memberTable.getItems().size() * 29.5);
+    }
+
+    public void sendInv() {
         LOGGER.info("Torture squad sent");
     }
 
 
-
-    public void cancel(){
+    public void cancel() {
         LOGGER.info("closed");
     }
-
 
 
 }

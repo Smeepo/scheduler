@@ -72,15 +72,15 @@ public class UserViewController {
     public void initView() {
         List<Group> groupList = groupRepository.findAllByUsersContains(loginService.getAuthenticatedUser());
 
-        for (Group i : groupList) {
+        for (Group group : groupList) {
             // Logging
-            LOGGER.info("Currently in group:" + i.getGroupName());
+            LOGGER.info("Currently in group:" + group.getGroupName());
             VBox invitationBox = new VBox(10);
             TextArea descArea = new TextArea();
             ListView<User> acceptedUsers = new ListView<>();
 
             // Get all invitations of the group
-            for (Invitation invitation : i.getInvitations()) {
+            for (Invitation invitation : group.getInvitations()) {
                 HBox hbox = new HBox(25);
                 Button accept = new Button("Accept");
                 accept.setOnAction(event -> {
@@ -129,12 +129,12 @@ public class UserViewController {
 
 
                 //Logging
-                LOGGER.info(i.getGroupName() + " Invitations: " + invitation.getDate());
+                LOGGER.info(group.getGroupName() + " Invitations: " + invitation.getDate());
 
 
             }
             // Add generated Panes to the accordion
-            groupAccordion.getPanes().add(new TitledPane(i.getGroupName(), invitationBox));
+            groupAccordion.getPanes().add(new TitledPane(group.getGroupName(), invitationBox));
         }
 
 
@@ -157,6 +157,7 @@ public class UserViewController {
      */
     private void updateTableView(Invitation invitation, boolean shouldDelete) {
         boolean hasInv = false;
+        // Check if invitation already exists
         for (Invitation inv : invitationTableView.getItems()) {
             if (inv == invitation) {
                 hasInv = true;

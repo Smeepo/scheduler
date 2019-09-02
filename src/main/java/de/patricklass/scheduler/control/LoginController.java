@@ -37,6 +37,7 @@ public class LoginController {
 
     private SceneManager sceneManager;
     private UserViewController userViewController;
+    private InvitationViewController invitationViewController;
 
     public LoginController(@Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, MockDataService mockDataService, UserViewController userViewController) {
         this.loginService = loginService;
