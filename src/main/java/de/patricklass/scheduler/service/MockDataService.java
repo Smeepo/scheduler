@@ -65,7 +65,7 @@ public class MockDataService {
         Group group1 = new Group("coole Kidz");
         group1.getUsers().addAll(users.subList(0,4));
         group1.getUsers().add(admin);
-        Invitation invite1 = new Invitation(LocalDate.now().plusDays(10), group1, "foo", "bar");
+        Invitation invite1 = new Invitation(LocalDate.now().plusDays(10), group1, "foo", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.");
         group1.getInvitations().add(invite1);
 
         // New Invitation for testing purposes
