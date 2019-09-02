@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 /**
  * User's view after logging in. Shows user's groups and events/invitations.
- *
  * @author minh
  */
 @Controller
@@ -49,8 +48,6 @@ public class UserViewController {
     @FXML
     private TableColumn<Invitation, String> userInvDateColumn = new TableColumn<>();
 
-    @FXML
-    private TableColumn<Invitation, String> userStatusTableColumn = new TableColumn<>();
 
 
     @FXML
@@ -71,7 +68,8 @@ public class UserViewController {
      */
     public void initView() {
         List<Group> groupList = groupRepository.findAllByUsersContains(loginService.getAuthenticatedUser());
-
+        groupAccordion.getPanes().clear();
+        invitationTableView.getItems().clear();
         for (Group group : groupList) {
             // Logging
             LOGGER.info("Currently in group:" + group.getGroupName());
@@ -126,6 +124,8 @@ public class UserViewController {
                 invitationBox.getChildren().add(new Label("Vorgeschlagenes Datum: " + invitation.getDate().toString()));
                 invitationBox.getChildren().add(hbox);
                 invitationBox.getChildren().add(descArea);
+
+                // Hide this box if it's empty
                 if(!acceptedUsers.getItems().isEmpty()){
                     invitationBox.getChildren().add(new Label("Diese Leute haben schon zugesagt:"));
                     invitationBox.getChildren().add(acceptedUsers);
@@ -146,7 +146,6 @@ public class UserViewController {
 
     public void initTableView() {
         userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        //  userStatusTableColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
     }
 
 
@@ -160,16 +159,8 @@ public class UserViewController {
      *                     shouldDelete == false -> add invitation
      */
     private void updateTableView(Invitation invitation, boolean shouldDelete) {
-        boolean hasInv = false;
         // Check if invitation already exists
-        for (Invitation inv : invitationTableView.getItems()) {
-            if (inv == invitation) {
-                hasInv = true;
-                break;
-            } else {
-                hasInv = false;
-            }
-        }
+        boolean hasInv = invitationTableView.getItems().contains(invitation);
 
         if (!hasInv && !shouldDelete) {
             // Fill tableView with the accepted invitation
@@ -188,9 +179,11 @@ public class UserViewController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        alert.setContentText("You just pressed the logout button");
-
+        alert.setContentText("Sie wurden ausgeloggt");
         alert.showAndWait();
+
+        loginService.logout();
+
 
         sceneManager.showScene("login");
         // @ToDo add logout logic here

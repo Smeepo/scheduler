@@ -27,6 +27,7 @@ import java.util.Map;
 public class InvitationViewController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private SceneManager sceneManager;
 
     @FXML
     private Label dateLabel;
@@ -43,13 +44,14 @@ public class InvitationViewController {
 
     @FXML
     private TableColumn<Map.Entry<User, InvitationStatus>, String> userColumn = new TableColumn<>();
-    private SceneManager sceneManager;
 
-
+    /**
+     * Fills the tableview columns with usernames and invitation-statuses of all users in the group that was selected in the previous scene
+     */
     @FXML
     public void initialize() {
         userColumn.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getKey().getUserName()));
-        statusColumn.setCellValueFactory(value->new SimpleStringProperty(value.getValue().getValue().toString()));
+        statusColumn.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getValue().toString()));
     }
 
     // Constructor
@@ -76,12 +78,7 @@ public class InvitationViewController {
         memberTable.setPrefHeight(memberTable.getItems().size() * 29.5);
     }
 
-    public void sendInv() {
-        LOGGER.info("Torture squad sent");
-    }
-
-
-    public void cancel() {
+    public void goBack() {
         sceneManager.showLastScene();
     }
 

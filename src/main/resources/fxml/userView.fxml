@@ -22,7 +22,6 @@
             <TableView fx:id="invitationTableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="userInvDateColumn" prefWidth="88.0" text="Zugesagte Termine" />
-                  <TableColumn fx:id="userStatusTableColumn" prefWidth="75.0" text="Status" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
