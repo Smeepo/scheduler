@@ -70,6 +70,7 @@ public class InvitationViewController {
     public void loadForInvitation(Invitation invitation) {
         nameLabel.setText(invitation.getName());
         dateLabel.setText(invitation.getDate().toString());
+        memberTable.getItems().clear();
         memberTable.getItems().addAll(invitation.getStatusMap().entrySet());
 
         memberTable.setPrefHeight(memberTable.getItems().size() * 29.5);
