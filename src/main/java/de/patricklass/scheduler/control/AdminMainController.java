@@ -5,6 +5,7 @@ import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
 import de.patricklass.scheduler.repository.UserRepository;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class AdminMainController {
-
 
     @FXML
     private BorderPane adminMainBorderPane = new BorderPane();
@@ -161,11 +161,13 @@ public class AdminMainController {
 
         }));
 
-        adminUserColumn.setCellValueFactory(new PropertyValueFactory<>("userName"));
+        adminUserColumn.setCellValueFactory(data -> new SimpleStringProperty(
+                data.getValue().getUserName() + (data.getValue().isAdmin() ? "(admin)" : "")
+        ));
         adminGroupColumn.setCellValueFactory(new PropertyValueFactory<>("groupName"));
     }
 
-    public void loadForUser(User user){
+    public void loadTables(){
         adminGroupTableView.getItems().addAll(groupRepository.findAll());
         adminUserTableView.getItems().addAll(userRepository.findAll());
     }

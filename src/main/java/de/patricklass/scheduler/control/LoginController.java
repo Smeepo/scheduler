@@ -55,7 +55,7 @@ public class LoginController {
         try{
            if( loginService.login(userTextField.getText(), passwordField.getText()).isAdmin()){
                LOGGER.info("YOU'RE IN -- LOGGED IN AS ADMIN");
-                adminMainController.loadForUser(loginService.getAuthenticatedUser());
+                adminMainController.loadTables();
                sceneManager.showScene("adminMain");
            }else{
                LOGGER.info("ENTERING PLEB MODE");
