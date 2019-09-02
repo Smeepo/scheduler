@@ -91,7 +91,7 @@ public class AdminGroupOverviewController {
 
         adminGroupOverviewCreateInvitationButton.setOnAction((event -> {
             adminCreateEventController.loadForUser(loginService.getAuthenticatedUser(), this);
-            sceneManager.showScene("adminCreateEvent");
+            sceneManager.showScene(SceneManager.ADMIN_CREATE_EVENT);
         }));
 
         adminGroupOverviewDeleteInvitationButton.setOnAction((event -> {

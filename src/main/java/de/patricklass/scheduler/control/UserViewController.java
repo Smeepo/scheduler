@@ -67,6 +67,9 @@ public class UserViewController {
      *  Buttons add or remove invites from the invitationTableView
      */
     public void initView() {
+        // Initialize TableColumn
+        userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
         List<Group> groupList = groupRepository.findAllByUsersContains(loginService.getAuthenticatedUser());
         groupAccordion.getPanes().clear();
         invitationTableView.getItems().clear();
@@ -140,9 +143,9 @@ public class UserViewController {
 
     }
 
-    public void initTableView() {
-        userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-    }
+//    public void initTableView() {
+//        userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+//    }
 
 
     /**
@@ -179,9 +182,6 @@ public class UserViewController {
         alert.showAndWait();
 
         loginService.logout();
-
-
-        sceneManager.showScene("login");
-        // @ToDo add logout logic here
+        sceneManager.showScene(SceneManager.LOGIN);
     }
 }

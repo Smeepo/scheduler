@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 
 /**
  * Controller for the admin main page. Handles users and groups.
+ *
  * @author Jens
  */
 
@@ -87,7 +88,7 @@ public class AdminMainController {
     @FXML
     private void initialize() {
         createGroupButton.setOnAction((event) -> {
-            sceneManager.showScene("createGroup");
+            sceneManager.showScene(SceneManager.CREATE_GROUP);
         });
 
         delGroupButton.setOnAction((event -> {
@@ -187,19 +188,19 @@ public class AdminMainController {
         adminGroupColumn.setCellValueFactory(new PropertyValueFactory<>("groupName"));
 
         //Show ADMIN_GROUP_OVERVIEW on double click
-        adminGroupTableView.setRowFactory( tv -> {
+        adminGroupTableView.setRowFactory(tv -> {
             TableRow<Group> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     adminGroupOverviewController.loadForGroup(row.getItem());
                     sceneManager.showScene(SceneManager.ADMIN_GROUP_OVERVIEW);
                 }
             });
-            return row ;
+            return row;
         });
     }
 
-    public void loadTables(){
+    public void loadTables() {
         adminGroupTableView.getItems().clear();
         adminGroupTableView.getItems().addAll(groupRepository.findAll());
         adminUserTableView.getItems().clear();
