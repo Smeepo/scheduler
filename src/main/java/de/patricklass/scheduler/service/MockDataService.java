@@ -34,6 +34,8 @@ public class MockDataService {
     }
 
     public void initRepositoryData() {
+        if(userRepository.count() != 0) return;
+
         User admin = new User("patrick");
         admin.setAdmin(true);
         List<User> users = Arrays.asList(

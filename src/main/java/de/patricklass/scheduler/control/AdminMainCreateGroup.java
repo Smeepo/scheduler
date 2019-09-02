@@ -1,6 +1,5 @@
 package de.patricklass.scheduler.control;
 
-import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.model.Group;
 import de.patricklass.scheduler.repository.GroupRepository;
 import javafx.fxml.FXML;
@@ -35,10 +34,12 @@ public class AdminMainCreateGroup {
     private SceneManager sceneManager;
 
     private GroupRepository groupRepository;
+    private AdminMainController adminMainController;
 
-    public AdminMainCreateGroup(SceneManager sceneManager, GroupRepository groupRepository) {
+    public AdminMainCreateGroup(SceneManager sceneManager, GroupRepository groupRepository, AdminMainController adminMainController) {
         this.sceneManager = sceneManager;
         this.groupRepository = groupRepository;
+        this.adminMainController = adminMainController;
     }
 
     @FXML
@@ -54,6 +55,7 @@ public class AdminMainCreateGroup {
             Button okButton = new Button("OK");
             okButton.setOnAction((event1 -> {
                 dialog.close();
+                adminMainController.loadTables();
                 sceneManager.showLastScene();
             }));
             dialogVbox.getChildren().add(okButton);

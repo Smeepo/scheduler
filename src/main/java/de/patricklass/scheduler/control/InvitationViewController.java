@@ -43,6 +43,7 @@ public class InvitationViewController {
 
     @FXML
     private TableColumn<Map.Entry<User, InvitationStatus>, String> userColumn = new TableColumn<>();
+    private SceneManager sceneManager;
 
 
     @FXML
@@ -52,8 +53,8 @@ public class InvitationViewController {
     }
 
     // Constructor
-    public InvitationViewController() {
-
+    public InvitationViewController(SceneManager sceneManager) {
+        this.sceneManager = sceneManager;
     }
 
     // Init method that is called before scene is shown
@@ -80,7 +81,7 @@ public class InvitationViewController {
 
 
     public void cancel() {
-        LOGGER.info("closed");
+        sceneManager.showLastScene();
     }
 
 

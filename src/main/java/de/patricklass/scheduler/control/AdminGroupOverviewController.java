@@ -155,7 +155,8 @@ public class AdminGroupOverviewController {
             TableRow<Invitation> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
-                    //TODO after merge: Load invitation View
+                    invitationViewController.loadForInvitation(row.getItem());
+                    sceneManager.showScene(SceneManager.INVITATION_VIEW);
                 }
             });
             return row ;

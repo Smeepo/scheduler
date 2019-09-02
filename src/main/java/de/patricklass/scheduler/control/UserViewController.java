@@ -81,6 +81,10 @@ public class UserViewController {
 
             // Get all invitations of the group
             for (Invitation invitation : group.getInvitations()) {
+                if(invitation.getStatusMap().get(loginService.getAuthenticatedUser()).equals(InvitationStatus.ACCEPTED)) {
+                    invitationTableView.getItems().add(invitation);
+                }
+
                 HBox hbox = new HBox(25);
                 Button accept = new Button("Accept");
                 accept.setOnAction(event -> {

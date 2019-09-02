@@ -4,6 +4,7 @@ import de.patricklass.scheduler.model.Group;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
+import de.patricklass.scheduler.repository.UserCredentialsRepository;
 import de.patricklass.scheduler.repository.UserRepository;
 import de.patricklass.scheduler.service.LoginService;
 import javafx.beans.property.SimpleStringProperty;
@@ -68,6 +69,7 @@ public class AdminMainController {
     private InvitationRepository invitationRepository;
     private LoginService loginService;
     private AdminGroupOverviewController adminGroupOverviewController;
+    private UserCredentialsRepository userCredentialsRepository;
 
 
     public AdminMainController(SceneManager sceneManager,
@@ -75,13 +77,15 @@ public class AdminMainController {
                                UserRepository userRepository,
                                InvitationRepository invitationRepository,
                                @Qualifier("loginService-local") LoginService loginService,
-                               AdminGroupOverviewController adminGroupOverviewController) {
+                               AdminGroupOverviewController adminGroupOverviewController,
+                               UserCredentialsRepository userCredentialsRepository) {
         this.sceneManager = sceneManager;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
         this.invitationRepository = invitationRepository;
         this.loginService = loginService;
         this.adminGroupOverviewController = adminGroupOverviewController;
+        this.userCredentialsRepository = userCredentialsRepository;
     }
 
     @FXML
@@ -137,6 +141,7 @@ public class AdminMainController {
                 });
                 adminUserTableView.getItems().remove(selectedUser);
                 userRepository.delete(selectedUser);
+                userCredentialsRepository.removeByUserName(selectedUser.getUserName());
             }));
             Button noButton = new Button("Nein");
             noButton.setOnAction(event1 -> {
@@ -162,7 +167,7 @@ public class AdminMainController {
             Group selectedGroup = adminGroupTableView.getSelectionModel().getSelectedItem();
             selectedGroup.getUsers().add(selectedUser);
             groupRepository.save(selectedGroup);
-
+            loadTables();
             Button okButton = new Button("OK");
             okButton.setOnAction((event1 -> {
                 dialog.close();
@@ -179,6 +184,7 @@ public class AdminMainController {
             if (selectedUser == null || selectedUser.equals(loginService.getAuthenticatedUser())) return;
             selectedUser.setAdmin(!selectedUser.isAdmin());
             userRepository.save(selectedUser);
+            loadTables();
         });
 
         adminUserColumn.setCellValueFactory(data -> new SimpleStringProperty(
