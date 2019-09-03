@@ -7,6 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Data class for login user credentials
+ * @author Patrick Laß
+ */
+
 @Entity
 @Table
 public class UserCredentials {
