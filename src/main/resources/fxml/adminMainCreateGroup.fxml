@@ -7,20 +7,29 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" fx:controller="de.patricklass.scheduler.control.AdminMainCreateGroup" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.patricklass.scheduler.control.AdminMainCreateGroup">
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="adminMainCreateGroupNameTextfield" promptText="Name" />
             <TextArea fx:id="adminMainCreateGroupDescriptionTextfield" prefHeight="200.0" prefWidth="200.0" promptText="Beschreibung" />
+            <HBox prefHeight="184.0" prefWidth="600.0">
+               <children>
+                  <Pane prefHeight="180.0" prefWidth="151.0" />
+                  <Button fx:id="adminMainCreateGroupConfirmButton" alignment="CENTER" mnemonicParsing="false" text="Gruppe anlegen">
+                     <HBox.margin>
+                        <Insets top="40.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Pane prefHeight="180.0" prefWidth="84.0" />
+                  <Button fx:id="adminMainCreateGroupCancelButton" mnemonicParsing="false" text="Abbrechen">
+                     <HBox.margin>
+                        <Insets top="40.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>
-   <bottom>
-      <Button fx:id="adminMainCreateGroupConfirmButton" alignment="CENTER" mnemonicParsing="false" text="Gruppe anlegen" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="75.0" />
-         </BorderPane.margin>
-      </Button>
-   </bottom>
 </BorderPane>
