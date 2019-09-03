@@ -5,6 +5,11 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Data class for invitation
+ * @author Patrick Laß
+ */
+
 @Entity
 @Table
 public class Invitation {

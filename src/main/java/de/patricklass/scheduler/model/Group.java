@@ -4,6 +4,12 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Data class for group
+ * @author Patrick Laß
+ * @author Jens Hieke
+ */
+
 @Entity
 @Table(name = "groups")
 public class Group {

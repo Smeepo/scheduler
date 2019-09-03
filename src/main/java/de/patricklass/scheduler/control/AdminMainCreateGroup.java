@@ -31,6 +31,9 @@ public class AdminMainCreateGroup {
     @FXML
     private Button adminMainCreateGroupConfirmButton = new Button();
 
+    @FXML
+    private Button adminMainCreateGroupCancelButton = new Button();
+
     private SceneManager sceneManager;
 
     private GroupRepository groupRepository;
@@ -63,6 +66,10 @@ public class AdminMainCreateGroup {
             dialog.setScene(dialogScene);
             dialog.show();
         }));
+
+        adminMainCreateGroupCancelButton.setOnAction(event -> {
+            sceneManager.showLastScene();
+        });
 
     }
 }
