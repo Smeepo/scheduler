@@ -176,6 +176,7 @@ public class AdminGroupOverviewController {
         groupNameLabel.setText(group.getGroupName());
     }
 
+    //TODO refresh doesn't seem to work
     public void loadTables() {
         adminGroupOverviewUserTableView.getItems().clear();
         adminGroupOverviewUserTableView.getItems().addAll(loadedGroup.getUsers());

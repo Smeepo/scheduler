@@ -233,6 +233,7 @@ public class AdminMainController {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     adminGroupOverviewController.loadForGroup(row.getItem());
+                    adminGroupOverviewController.loadTables();
                     sceneManager.showScene(SceneManager.ADMIN_GROUP_OVERVIEW);
                 }
             });
