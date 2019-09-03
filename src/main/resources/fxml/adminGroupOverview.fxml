@@ -1,49 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
+<?import javafx.scene.text.Font?>
 <BorderPane fx:id="adminGroupOverviewBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.patricklass.scheduler.control.AdminGroupOverviewController">
-   <top>
-      <TextField fx:id="adminGroupOverviewNameTextfield" BorderPane.alignment="CENTER" />
-   </top>
-   <left>
-      <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="223.0" prefWidth="158.0">
-               <children>
-                  <TableView fx:id="adminGroupOverviewUserTableView" layoutX="-21.0" prefHeight="268.0" prefWidth="200.0">
-                    <columns>
-                      <TableColumn fx:id="adminGroupOverviewUserColumn" prefWidth="190.0" text="Nutzer" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </left>
-   <right>
-      <SplitPane orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <TableView fx:id="adminGroupOverviewInvitationTableView" layoutX="-21.0" prefHeight="266.0" prefWidth="200.0" AnchorPane.leftAnchor="-21.0">
-                    <columns>
-                      <TableColumn fx:id="adminGroupOverviewInvitationColumn" prefWidth="180.0" text="Termine" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </right>
-   <center>
-      <Pane maxHeight="0.0" maxWidth="0.0" prefHeight="0.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
-   </center>
    <bottom>
       <SplitPane dividerPositions="0.5" prefHeight="106.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <items>
@@ -70,4 +30,25 @@
          </items>
       </SplitPane>
    </bottom>
+   <top>
+      <Label fx:id="groupNameLabel" text="Hier könnte ihr Gruppenname stehen" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </top>
+   <left>
+      <TableView fx:id="adminGroupOverviewUserTableView" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="adminGroupOverviewUserColumn" prefWidth="250.0" text="Nutzer" />
+        </columns>
+      </TableView>
+   </left>
+   <right>
+      <TableView fx:id="adminGroupOverviewInvitationTableView" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="adminGroupOverviewInvitationColumn" prefWidth="250.0" text="Termine" />
+        </columns>
+      </TableView>
+   </right>
 </BorderPane>

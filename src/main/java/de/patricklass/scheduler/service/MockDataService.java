@@ -34,6 +34,10 @@ public class MockDataService {
     }
 
     public void initRepositoryData() {
+        if(userRepository.count() != 0) return;
+
+        User admin = new User("patrick");
+        admin.setAdmin(true);
         List<User> users = Arrays.asList(
                 new User("peter"),
                 new User("hans"),
@@ -42,25 +46,28 @@ public class MockDataService {
                 new User("joachim"),
                 new User("jennifer"),
                 new User("melina"),
-                new User("bernd")
-                );
+                new User("bernd"),
+                admin
+        );
         userRepository.saveAll(users);
 
         List<UserCredentials> credentials = Arrays.asList(
-            new UserCredentials("peter", "passwort"),
-            new UserCredentials("hans", "passwort"),
-            new UserCredentials("lisa", "passwort"),
-            new UserCredentials("winfried", "passwort"),
-            new UserCredentials("joachim", "passwort"),
-            new UserCredentials("jennifer", "passwort"),
-            new UserCredentials("melina", "passwort"),
-            new UserCredentials("bernd", "passwort")
+                new UserCredentials("peter", "passwort"),
+                new UserCredentials("hans", "passwort"),
+                new UserCredentials("lisa", "passwort"),
+                new UserCredentials("winfried", "passwort"),
+                new UserCredentials("joachim", "passwort"),
+                new UserCredentials("jennifer", "passwort"),
+                new UserCredentials("melina", "passwort"),
+                new UserCredentials("bernd", "passwort"),
+                new UserCredentials("patrick", "admin")
         );
         userCredentialsRepository.saveAll(credentials);
 
         Group group1 = new Group("coole Kidz");
         group1.getUsers().addAll(users.subList(0,4));
-        Invitation invite1 = new Invitation(LocalDate.now().plusDays(10), group1, "foo", "bar");
+        group1.getUsers().add(admin);
+        Invitation invite1 = new Invitation(LocalDate.now().plusDays(10), group1, "foo", "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.");
         group1.getInvitations().add(invite1);
 
         // New Invitation for testing purposes

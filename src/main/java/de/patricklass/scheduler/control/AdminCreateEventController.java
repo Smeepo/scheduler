@@ -12,8 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import java.time.LocalDate;
-
 /**
  * Called on AdminGroupOverview
  * Admin creates/updates events here
@@ -48,6 +46,7 @@ public class AdminCreateEventController {
     private GroupRepository groupRepository;
     private InvitationRepository invitationRepository;
     private SceneManager sceneManager;
+    private AdminGroupOverviewController adminGroupOverviewController;
 
     public AdminCreateEventController(GroupRepository groupRepository, InvitationRepository invitationRepository, SceneManager sceneManager) {
         this.groupRepository = groupRepository;
@@ -73,9 +72,11 @@ public class AdminCreateEventController {
         });
     }
 
-    public void loadForUser(User user){
+    public void loadForUser(User user, AdminGroupOverviewController adminGroupOverviewController){
+        this.adminGroupOverviewController = adminGroupOverviewController;
         choiceBoxGroup.getItems().clear();
         choiceBoxGroup.getItems().addAll(groupRepository.findAllByUsersContains(user));
+        choiceBoxGroup.setValue(adminGroupOverviewController.loadedGroup);
     }
 
     public void createEvent(){
@@ -90,8 +91,7 @@ public class AdminCreateEventController {
         group.getInvitations().add(invitation);
         invitationRepository.save(invitation);
         groupRepository.save(group);
-
-
+        adminGroupOverviewController.loadTables();
         LOGGER.info("event created");
         sceneManager.showLastScene();
     }

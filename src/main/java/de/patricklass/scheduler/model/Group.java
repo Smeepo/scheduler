@@ -1,9 +1,7 @@
 package de.patricklass.scheduler.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -60,17 +58,11 @@ public class Group {
 
         Group group = (Group) o;
 
-        if (getId() != group.getId()) return false;
-        if (!getGroupName().equals(group.getGroupName())) return false;
-        return getUsers().equals(group.getUsers());
+        return getId() == group.getId();
     }
 
     @Override
     public int hashCode() {
-        int result = getId();
-        result = 31 * result + getGroupName().hashCode();
-        result = 31 * result + getUsers().hashCode();
-        return result;
+        return getId();
     }
-
 }

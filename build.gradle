@@ -11,11 +11,13 @@ sourceCompatibility = '1.8'
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven { url "https://repo.spring.io/release" }
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter")
+    compile("org.springframework.boot:spring-boot-starter-test")
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.data:spring-data-jpa")
     compile("com.h2database:h2")

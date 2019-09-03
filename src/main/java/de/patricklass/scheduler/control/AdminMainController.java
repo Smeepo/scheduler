@@ -1,29 +1,27 @@
 package de.patricklass.scheduler.control;
 
-import com.sun.xml.internal.bind.v2.TODO;
-import de.patricklass.scheduler.control.SceneManager;
 import de.patricklass.scheduler.model.Group;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
+import de.patricklass.scheduler.repository.InvitationRepository;
+import de.patricklass.scheduler.repository.UserCredentialsRepository;
 import de.patricklass.scheduler.repository.UserRepository;
-import javafx.event.EventHandler;
+import de.patricklass.scheduler.service.LoginService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 /**
  * Controller for the admin main page. Handles users and groups.
@@ -33,21 +31,20 @@ import java.io.IOException;
 @Controller
 public class AdminMainController {
 
-
     @FXML
     private BorderPane adminMainBorderPane = new BorderPane();
 
     @FXML
-    private TableView<User> adminUserTableView = new TableView<User>();
+    private TableView<User> adminUserTableView = new TableView<>();
 
     @FXML
-    private TableView<Group> adminGroupTableView = new TableView<Group>();
+    private TableView<Group> adminGroupTableView = new TableView<>();
 
     @FXML
-    private TableColumn adminUserColumn = new TableColumn();
+    private TableColumn<User, String> adminUserColumn = new TableColumn<>();
 
     @FXML
-    private TableColumn adminGroupColumn = new TableColumn();
+    private TableColumn<Group, String> adminGroupColumn = new TableColumn<>();
 
     @FXML
     private Button addUserButton = new Button();
@@ -61,17 +58,34 @@ public class AdminMainController {
     @FXML
     private Button createGroupButton = new Button();
 
+    @FXML
+    private Button toggleAdminButton = new Button();
+
     private SceneManager sceneManager;
 
     private GroupRepository groupRepository;
 
     private UserRepository userRepository;
+    private InvitationRepository invitationRepository;
+    private LoginService loginService;
+    private AdminGroupOverviewController adminGroupOverviewController;
+    private UserCredentialsRepository userCredentialsRepository;
 
 
-    public AdminMainController(SceneManager sceneManager, GroupRepository groupRepository, UserRepository userRepository) {
+    public AdminMainController(SceneManager sceneManager,
+                               GroupRepository groupRepository,
+                               UserRepository userRepository,
+                               InvitationRepository invitationRepository,
+                               @Qualifier("loginService-local") LoginService loginService,
+                               AdminGroupOverviewController adminGroupOverviewController,
+                               UserCredentialsRepository userCredentialsRepository) {
         this.sceneManager = sceneManager;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
+        this.invitationRepository = invitationRepository;
+        this.loginService = loginService;
+        this.adminGroupOverviewController = adminGroupOverviewController;
+        this.userCredentialsRepository = userCredentialsRepository;
     }
 
     @FXML
@@ -115,11 +129,19 @@ public class AdminMainController {
             Button yesButton = new Button("Ja");
             yesButton.setOnAction((event1 -> {
                 dialog.close();
-
                 //get the selected User and send him to hell er.. delete him
                 User selectedUser = adminUserTableView.getSelectionModel().getSelectedItem();
-                adminGroupTableView.getItems().remove(selectedUser);
+                groupRepository.findAllByUsersContains(selectedUser).forEach(group -> {
+                    group.getUsers().remove(selectedUser);
+                    group.getInvitations().forEach(invitation -> {
+                        invitation.getStatusMap().remove(selectedUser);
+                        invitationRepository.save(invitation);
+                    });
+                    groupRepository.save(group);
+                });
+                adminUserTableView.getItems().remove(selectedUser);
                 userRepository.delete(selectedUser);
+                userCredentialsRepository.removeByUserName(selectedUser.getUserName());
             }));
             Button noButton = new Button("Nein");
             noButton.setOnAction(event1 -> {
@@ -145,7 +167,7 @@ public class AdminMainController {
             Group selectedGroup = adminGroupTableView.getSelectionModel().getSelectedItem();
             selectedGroup.getUsers().add(selectedUser);
             groupRepository.save(selectedGroup);
-
+            loadTables();
             Button okButton = new Button("OK");
             okButton.setOnAction((event1 -> {
                 dialog.close();
@@ -155,9 +177,39 @@ public class AdminMainController {
             Scene dialogScene = new Scene(dialogVbox, 300, 200);
             dialog.setScene(dialogScene);
             dialog.show();
-
-
         }));
+
+        toggleAdminButton.setOnAction(event -> {
+            User selectedUser = adminUserTableView.getSelectionModel().getSelectedItem();
+            if (selectedUser == null || selectedUser.equals(loginService.getAuthenticatedUser())) return;
+            selectedUser.setAdmin(!selectedUser.isAdmin());
+            userRepository.save(selectedUser);
+            loadTables();
+        });
+
+        adminUserColumn.setCellValueFactory(data -> new SimpleStringProperty(
+                data.getValue().getUserName() + (data.getValue().isAdmin() ? " (admin)" : "")
+        ));
+        adminGroupColumn.setCellValueFactory(new PropertyValueFactory<>("groupName"));
+
+        //Show ADMIN_GROUP_OVERVIEW on double click
+        adminGroupTableView.setRowFactory( tv -> {
+            TableRow<Group> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    adminGroupOverviewController.loadForGroup(row.getItem());
+                    sceneManager.showScene(SceneManager.ADMIN_GROUP_OVERVIEW);
+                }
+            });
+            return row ;
+        });
+    }
+
+    public void loadTables(){
+        adminGroupTableView.getItems().clear();
+        adminGroupTableView.getItems().addAll(groupRepository.findAll());
+        adminUserTableView.getItems().clear();
+        adminUserTableView.getItems().addAll(userRepository.findAll());
     }
 
 
