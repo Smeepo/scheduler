@@ -5,6 +5,7 @@ import de.patricklass.scheduler.model.Invitation;
 import de.patricklass.scheduler.model.InvitationStatus;
 import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
+import de.patricklass.scheduler.repository.InvitationRepository;
 import de.patricklass.scheduler.service.LoginService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 
 /**
+ * TODO refresh accepted user list, resolve invitation deleting issues
  * User's view after logging in. Shows user's groups and events/invitations.
  * @author minh
  */
@@ -29,6 +31,8 @@ public class UserViewController {
 
 
     private GroupRepository groupRepository;
+
+    private InvitationRepository invitationRepository;
 
     private LoginService loginService;
 
@@ -55,10 +59,11 @@ public class UserViewController {
         invitationTableView.setPlaceholder(new Label("Du hast noch keinen Terminen zugesagt"));
     }
 
-    public UserViewController(GroupRepository groupRepository, @Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager) {
+    public UserViewController(GroupRepository groupRepository, @Qualifier("loginService-local") LoginService loginService, SceneManager sceneManager, InvitationRepository invitationRepository) {
         this.groupRepository = groupRepository;
         this.loginService = loginService;
         this.sceneManager = sceneManager;
+        this.invitationRepository = invitationRepository;
     }
 
     /**
@@ -67,6 +72,9 @@ public class UserViewController {
      *  Buttons add or remove invites from the invitationTableView
      */
     public void initView() {
+        // Initialize TableColumn
+        userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
         List<Group> groupList = groupRepository.findAllByUsersContains(loginService.getAuthenticatedUser());
         groupAccordion.getPanes().clear();
         invitationTableView.getItems().clear();
@@ -79,14 +87,14 @@ public class UserViewController {
 
             // Get all invitations of the group
             for (Invitation invitation : group.getInvitations()) {
-                if(invitation.getStatusMap().get(loginService.getAuthenticatedUser()).equals(InvitationStatus.ACCEPTED)) {
+                if(InvitationStatus.ACCEPTED.equals(invitation.getStatusMap().get(loginService.getAuthenticatedUser()))) {
                     invitationTableView.getItems().add(invitation);
                 }
-
                 HBox hbox = new HBox(25);
                 Button accept = new Button("Accept");
                 accept.setOnAction(event -> {
                     invitation.getStatusMap().put(loginService.getAuthenticatedUser(), InvitationStatus.ACCEPTED);
+                    invitationRepository.save(invitation);
                     updateTableView(invitation,false);
                     // Logging
                     System.out.println(invitation.toString());
@@ -94,6 +102,7 @@ public class UserViewController {
                 Button decline = new Button("Decline");
                 decline.setOnAction(event -> {
                     invitation.getStatusMap().put(loginService.getAuthenticatedUser(), InvitationStatus.DECLINED);
+                    invitationRepository.delete(invitation);
                     updateTableView(invitation,true);
                     // Logging
                     System.out.println(invitation.toString());
@@ -116,7 +125,7 @@ public class UserViewController {
                                 .filter(key -> invitation.getStatusMap().get(key).equals(InvitationStatus.ACCEPTED))
                                 .collect(Collectors.toList())
                 );
-                acceptedUsers.setPrefHeight(acceptedUsers.getItems().size() * 29.5);
+                acceptedUsers.setPrefHeight(acceptedUsers.getItems().size() * 35);
 
 
                 // Add items to the VBox
@@ -144,9 +153,9 @@ public class UserViewController {
 
     }
 
-    public void initTableView() {
-        userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-    }
+//    public void initTableView() {
+//        userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+//    }
 
 
     /**
@@ -183,9 +192,6 @@ public class UserViewController {
         alert.showAndWait();
 
         loginService.logout();
-
-
-        sceneManager.showScene("login");
-        // @ToDo add logout logic here
+        sceneManager.showScene(SceneManager.LOGIN);
     }
 }

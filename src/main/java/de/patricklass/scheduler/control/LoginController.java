@@ -56,12 +56,19 @@ public class LoginController {
         try{
            if( loginService.login(userTextField.getText(), passwordField.getText()).isAdmin()){
                LOGGER.info("YOU'RE IN -- LOGGED IN AS ADMIN");
+               // Clear input fields
+               userTextField.clear();
+               passwordField.clear();
+
                 adminMainController.loadTables();
                sceneManager.showScene(SceneManager.ADMIN_MAIN);
            }else{
                LOGGER.info("ENTERING PLEB MODE");
+               // Clear input fields
+               userTextField.clear();
+               passwordField.clear();
+
                userViewController.initView();
-               userViewController.initTableView();
                sceneManager.showScene(SceneManager.USER_VIEW);
            };
 
