@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 /**
  * TODO refresh accepted user list, resolve invitation deleting issues
  * User's view after logging in. Shows user's groups and events/invitations.
+ *
  * @author minh
  */
 @Controller
@@ -44,14 +45,10 @@ public class UserViewController {
     private Accordion groupAccordion;
 
     @FXML
-    private ListView<String> invitationListView;
-
-    @FXML
     private TableView<Invitation> invitationTableView = new TableView<>();
 
     @FXML
     private TableColumn<Invitation, String> userInvDateColumn = new TableColumn<>();
-
 
 
     @FXML
@@ -67,9 +64,9 @@ public class UserViewController {
     }
 
     /**
-     *  Load all groups the current authenticated user is part of and create TitledPanes with content accordingly
-     *  Content that is created dynamically: Buttons and action listener, description TextArea, ListView of users who have accepted
-     *  Buttons add or remove invites from the invitationTableView
+     * Load all groups the current authenticated user is part of and create TitledPanes with content accordingly
+     * Content that is created dynamically: Buttons and action listener, description TextArea, ListView of users who have accepted
+     * Buttons add or remove invites from the invitationTableView
      */
     public void initView() {
         // Initialize TableColumn
@@ -87,25 +84,27 @@ public class UserViewController {
 
             // Get all invitations of the group
             for (Invitation invitation : group.getInvitations()) {
-                if(InvitationStatus.ACCEPTED.equals(invitation.getStatusMap().get(loginService.getAuthenticatedUser()))) {
+                if (InvitationStatus.ACCEPTED.equals(invitation.getStatusMap().get(loginService.getAuthenticatedUser()))) {
                     invitationTableView.getItems().add(invitation);
                 }
                 HBox hbox = new HBox(25);
                 Button accept = new Button("Accept");
                 accept.setOnAction(event -> {
                     invitation.getStatusMap().put(loginService.getAuthenticatedUser(), InvitationStatus.ACCEPTED);
+                    //TODO works but seems wrong
                     invitationRepository.save(invitation);
-                    updateTableView(invitation,false);
+                    updateTableView(invitation, false);
                     // Logging
-                    System.out.println(invitation.toString());
+                    LOGGER.info("Invitation status for current user and current invite: " + invitation.getStatusMap().get(loginService.getAuthenticatedUser()));
                 });
                 Button decline = new Button("Decline");
                 decline.setOnAction(event -> {
                     invitation.getStatusMap().put(loginService.getAuthenticatedUser(), InvitationStatus.DECLINED);
-                    invitationRepository.delete(invitation);
-                    updateTableView(invitation,true);
+//                    //TODO doesn't work yet
+//                    invitationRepository.delete(invitation);
+                    updateTableView(invitation, true);
                     // Logging
-                    System.out.println(invitation.toString());
+                    LOGGER.info("Invitation status for current user and current invite: " + invitation.getStatusMap().get(loginService.getAuthenticatedUser()));
                 });
 
                 // Add buttons
@@ -125,8 +124,15 @@ public class UserViewController {
                                 .filter(key -> invitation.getStatusMap().get(key).equals(InvitationStatus.ACCEPTED))
                                 .collect(Collectors.toList())
                 );
-                acceptedUsers.setPrefHeight(acceptedUsers.getItems().size() * 35);
 
+                /* Workaround to display the usernames of the <User> Listview
+                    @Patrick Laß pls don't laugh. it works :^)
+                 */
+                ListView<String> acceptedUsernameList = new ListView<>();
+                for (User user : acceptedUsers.getItems()) {
+                    acceptedUsernameList.getItems().add(user.getUserName());
+                }
+                acceptedUsernameList.setPrefHeight(acceptedUsers.getItems().size() * 35);
 
                 // Add items to the VBox
                 invitationBox.getChildren().add(new Label("Termin: " + invitation.getName()));
@@ -134,10 +140,10 @@ public class UserViewController {
                 invitationBox.getChildren().add(hbox);
                 invitationBox.getChildren().add(descArea);
 
-                // Hide this box if it's empty
-                if(!acceptedUsers.getItems().isEmpty()){
+                // Hide listView if it's empty
+                if (!acceptedUsernameList.getItems().isEmpty()) {
                     invitationBox.getChildren().add(new Label("Diese Leute haben schon zugesagt:"));
-                    invitationBox.getChildren().add(acceptedUsers);
+                    invitationBox.getChildren().add(acceptedUsernameList);
                 }
 
 
@@ -174,7 +180,7 @@ public class UserViewController {
         if (!hasInv && !shouldDelete) {
             // Fill tableView with the accepted invitation
             invitationTableView.getItems().add(invitation);
-        }else if (hasInv && shouldDelete) {
+        } else if (hasInv && shouldDelete) {
             // Remove declined invitation from tableView
             invitationTableView.getItems().remove(invitation);
         }

@@ -2,7 +2,6 @@ package de.patricklass.scheduler.control;
 
 import de.patricklass.scheduler.model.Group;
 import de.patricklass.scheduler.model.Invitation;
-import de.patricklass.scheduler.model.User;
 import de.patricklass.scheduler.repository.GroupRepository;
 import de.patricklass.scheduler.repository.InvitationRepository;
 import javafx.fxml.FXML;
@@ -72,11 +71,16 @@ public class AdminCreateEventController {
         });
     }
 
-    public void loadForUser(User user, AdminGroupOverviewController adminGroupOverviewController){
+    /** Accepts loaded group from previous scene and shows it as default option.
+     *  ChoiceBox is filled with all groups so admin can create invites for different groups
+     *  without having to leave the screen.
+     */
+    public void loadForUser(AdminGroupOverviewController adminGroupOverviewController){
         this.adminGroupOverviewController = adminGroupOverviewController;
         choiceBoxGroup.getItems().clear();
-        choiceBoxGroup.getItems().addAll(groupRepository.findAllByUsersContains(user));
+        choiceBoxGroup.getItems().addAll(groupRepository.findAll());
         choiceBoxGroup.setValue(adminGroupOverviewController.loadedGroup);
+        System.out.println(adminGroupOverviewController.loadedGroup);
     }
 
     public void createEvent(){

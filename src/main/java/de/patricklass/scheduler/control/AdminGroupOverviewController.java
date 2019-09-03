@@ -88,9 +88,9 @@ public class AdminGroupOverviewController {
     private void initialize(){
 
         initTableViews();
-
+        // Loads next scene and gives it access to this controller
         adminGroupOverviewCreateInvitationButton.setOnAction((event -> {
-            adminCreateEventController.loadForUser(loginService.getAuthenticatedUser(), this);
+            adminCreateEventController.loadForUser( this);
             sceneManager.showScene(SceneManager.ADMIN_CREATE_EVENT);
         }));
 

@@ -247,6 +247,10 @@ public class AdminMainController {
         adminUserTableView.getItems().addAll(userRepository.findAll());
     }
 
+    public void logout(){
+        loginService.logout();
+        sceneManager.showScene(SceneManager.LOGIN);
+    }
 
 }
 
