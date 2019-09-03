@@ -45,9 +45,7 @@ public class InvitationViewController {
     @FXML
     private TableColumn<Map.Entry<User, InvitationStatus>, String> userColumn = new TableColumn<>();
 
-    /**
-     * Fills the tableview columns with usernames and invitation-statuses of all users in the group that was selected in the previous scene
-     */
+    //Fills the tableview columns with usernames and invitation-statuses of all users in the group that was selected in the previous scene
     @FXML
     public void initialize() {
         userColumn.setCellValueFactory(value -> new SimpleStringProperty(value.getValue().getKey().getUserName()));
@@ -59,14 +57,9 @@ public class InvitationViewController {
         this.sceneManager = sceneManager;
     }
 
-    // Init method that is called before scene is shown
-    public void initView() {
-    }
-
     /**
      * Called by GroupAdminOverview
      * Loads all users and their statuses into the tableView
-     *
      * @param invitation that was chosen in the previous scene
      */
     public void loadForInvitation(Invitation invitation) {

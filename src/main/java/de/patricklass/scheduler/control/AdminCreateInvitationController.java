@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
  * @author Minh
  */
 @Controller
-public class AdminCreateEventController {
+public class AdminCreateInvitationController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
@@ -47,7 +47,7 @@ public class AdminCreateEventController {
     private SceneManager sceneManager;
     private AdminGroupOverviewController adminGroupOverviewController;
 
-    public AdminCreateEventController(GroupRepository groupRepository, InvitationRepository invitationRepository, SceneManager sceneManager) {
+    public AdminCreateInvitationController(GroupRepository groupRepository, InvitationRepository invitationRepository, SceneManager sceneManager) {
         this.groupRepository = groupRepository;
         this.invitationRepository = invitationRepository;
         this.sceneManager = sceneManager;
@@ -83,6 +83,9 @@ public class AdminCreateEventController {
         System.out.println(adminGroupOverviewController.loadedGroup);
     }
 
+    /**
+     * Get user input and create a new invitation
+     */
     public void createEvent(){
         Group group = choiceBoxGroup.getValue();
         Invitation invitation = new Invitation(

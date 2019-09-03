@@ -79,15 +79,19 @@ public class UserViewController {
             // Logging
             LOGGER.info("Currently in group:" + group.getGroupName());
             VBox invitationBox = new VBox(10);
-            TextArea descArea = new TextArea();
             ListView<User> acceptedUsers = new ListView<>();
 
-            // Get all invitations of the group
+            // Get all invitations of the group and create GUI elements for each of them
             for (Invitation invitation : group.getInvitations()) {
                 if (InvitationStatus.ACCEPTED.equals(invitation.getStatusMap().get(loginService.getAuthenticatedUser()))) {
                     invitationTableView.getItems().add(invitation);
                 }
+
+                // Create a horizontal layout for buttons and description text area
+                TextArea descArea = new TextArea();
                 HBox hbox = new HBox(25);
+
+                // Create buttons
                 Button accept = new Button("Accept");
                 accept.setOnAction(event -> {
                     invitation.getStatusMap().put(loginService.getAuthenticatedUser(), InvitationStatus.ACCEPTED);
@@ -107,10 +111,10 @@ public class UserViewController {
                     LOGGER.info("Invitation status for current user and current invite: " + invitation.getStatusMap().get(loginService.getAuthenticatedUser()));
                 });
 
-                // Add buttons
+                // Add buttons to the horiontal layoout
                 hbox.getChildren().addAll(accept, decline);
 
-                // Add description area
+                // Fill description area
                 descArea.setText(invitation.getDescription());
                 descArea.setEditable(false);
                 descArea.setWrapText(true);
@@ -158,11 +162,6 @@ public class UserViewController {
 
 
     }
-
-//    public void initTableView() {
-//        userInvDateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-//    }
-
 
     /**
      * Add or remove accepted or declined invitation to the tableView and

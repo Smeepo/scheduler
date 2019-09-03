@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -20,7 +19,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 
-
+/**
+ * Called by AdminMainController
+ * Overview over a selected group(from prev. scene), its users and invitations
+ * Allows admin to create or delete new invitations, them and remove users from the group
+ * @author Patrick Laß
+ * @author Jens
+ */
 @Controller
 public class AdminGroupOverviewController {
 
@@ -41,13 +46,7 @@ public class AdminGroupOverviewController {
     private Button adminGroupOverviewBackButton = new Button();
 
     @FXML
-    private BorderPane adminGroupOverviewBorderPane = new BorderPane();
-
-    @FXML
     private Button adminGroupOverviewDeleteInvitationButton = new Button();
-
-    @FXML
-    private TextField adminGroupOverviewNameTextfield = new TextField();
 
     @FXML
     private TableColumn<Invitation, String> adminGroupOverviewInvitationColumn = new TableColumn<>();
@@ -62,7 +61,8 @@ public class AdminGroupOverviewController {
     private SceneManager sceneManager;
     private InvitationRepository invitationRepository;
     private GroupRepository groupRepository;
-    private AdminCreateEventController adminCreateEventController;
+    private AdminCreateInvitationController adminCreateEventController;
+    // TODO currently unused, check if there's a need for it in the future
     private LoginService loginService;
     private InvitationViewController invitationViewController;
 
@@ -73,7 +73,7 @@ public class AdminGroupOverviewController {
     public AdminGroupOverviewController(SceneManager sceneManager,
                                         InvitationRepository invitationRepository,
                                         GroupRepository groupRepository,
-                                        AdminCreateEventController adminCreateEventController,
+                                        AdminCreateInvitationController adminCreateEventController,
                                         @Qualifier("loginService-local") LoginService loginService,
                                         InvitationViewController invitationViewController) {
         this.sceneManager = sceneManager;
@@ -94,6 +94,7 @@ public class AdminGroupOverviewController {
             sceneManager.showScene(SceneManager.ADMIN_CREATE_EVENT);
         }));
 
+        // Delete an invitation plus confirmation dialog
         adminGroupOverviewDeleteInvitationButton.setOnAction((event -> {
             final Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
@@ -120,6 +121,7 @@ public class AdminGroupOverviewController {
             dialog.show();
         }));
 
+        // Delete a member plus confirmation dialog
         adminGroupOverviewRemoveUserButton.setOnAction((event -> {
             final Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);

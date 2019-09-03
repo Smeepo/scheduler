@@ -14,6 +14,11 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+
+/**
+ * Initializes the database with users/admins, user credentials and groups
+ * @author Patrick Laß
+ */
 @Service
 public class MockDataService {
 
@@ -81,8 +86,9 @@ public class MockDataService {
         group2.getInvitations().add(invite2);
 
         invitationRepository.save(invite1);
-        invitationRepository.save(invite2);
         invitationRepository.save(invite3);
+        invitationRepository.save(invite2);
+
 
         groupRepository.save(group1);
         groupRepository.save(group2);

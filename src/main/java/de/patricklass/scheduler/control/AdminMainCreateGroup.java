@@ -5,7 +5,6 @@ import de.patricklass.scheduler.repository.GroupRepository;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -24,9 +23,6 @@ public class AdminMainCreateGroup {
 
     @FXML
     private TextField adminMainCreateGroupNameTextfield = new TextField();
-
-    @FXML
-    private TextArea adminMainCreateGroupDescriptionTextfield = new TextArea();
 
     @FXML
     private Button adminMainCreateGroupConfirmButton = new Button();
