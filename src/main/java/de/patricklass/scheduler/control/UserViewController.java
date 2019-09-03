@@ -25,7 +25,7 @@ import java.util.*;
  * @author minh
  */
 @Controller
-public class UserViewController {
+public class    UserViewController {
     private ArrayList<String> stringArrayList = new ArrayList<>();
 
     private GroupRepository groupRepository;
