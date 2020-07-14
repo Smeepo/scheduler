@@ -44,7 +44,7 @@ public class SceneManager {
 
     /**
      * Selects the scene with the supplied key {@code identifier} form the sceneMap, if it exists and shows it on the
-     * {@code primaryStage. Also pushes the current Scene onto the {@code lastScenes} Stack
+     * {@code primaryStage}. Also pushes the current Scene onto the {@code lastScenes} Stack
      * @param identifier the identifier of the scene to be shown
      * @throws IllegalArgumentException if the supplied identifier is null or the map doesn't contain it
      */
